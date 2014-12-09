@@ -1,77 +1,89 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+package GPP_project;
 
-
-import java.io.IOException;
+import GPP_project.controller.TheaterController;
+import GPP_project.model.Seat;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.scene.*;
-import javafx.scene.image.*;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.text.*;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 /**
- *
- * @author
- * Alexander
+ * Alexander Bergendorff version 05-12-2014.
  */
-public class Main extends Application{
+public class Main extends Application {
+    Seat[][] seats = new Seat[6][];
 
-    @Override public void start(Stage stage) throws IOException{
-        
-        int xSize = 800;
-        int ySize = 600;
-        Parent root = FXMLLoader.load(getClass().getResource("Layout_theaterview.fxml"));
-        
-        Scene scene = new Scene(root);
-        
-        stage.setTitle("Widere Biograf");
-        stage.setScene(scene);
-        stage.show();
-       
-        /**
-        AnchorPane box = new AnchorPane();
-        
-        // screening.getMovieTitle() instead of "Ironman 4 (IMAX)"
-        Text t = new Text("Film: Ironman 4 (IMAX)");
-        t.setFont(new Font(20));
-        
-        Text t3 = new Text("Forestilling: ");
-        t3.setFont(new Font(20));
-        
-        // screening.getHour() + ":" + screening.getMinute() +
-        // + "\n" + "Sal " + screening.getTheaterNumber() + "\n" +
-        // screening.getDay() + " - " + screenig.getMonth + " - " +
-        // screening.getYear();
-        
-        Text t4 = new Text(" 19:30\n Sal 4\n 06-12-14");
-        t4.setFont(new Font(12));
-        Text t1 = new Text(10, 50, "This is a test");
-        t1.setFont(new Font(20));
-        
-        Text t2 = new Text(10, 50, "This is a test");
-        t2.setFont(new Font(20));
-        
-        box.getChildren().add(t3);
-        box.getChildren().add(t4);
-                
-        scene.setFill(Color.WHITE);
-
-        */
-        
+    public Main() {
+        // Get screening data ( Currently mock of screening.theater class )
+            for(int row = 0; row < seats.length; row++){
+                if(row == 0) seats[row] = new Seat[]{
+                    new Seat(row,row),new Seat(row,row),new Seat(row,row),
+                    new Seat(row,row),new Seat(row,row),
+                    new Seat(row,row),new Seat(row,row),new Seat(row,row)};
+                if(row == 1) seats[row] = new Seat[]{
+                    new Seat(row,row),new Seat(row,row),new Seat(row,row),
+                    null, null,
+                    new Seat(row,row),new Seat(row,row),new Seat(row,row)};
+                if(row == 2) seats[row] = new Seat[]{
+                    null, null, null,
+                    null, null,
+                    null, null, null};
+                if(row == 3) seats[row] = new Seat[]{
+                    new Seat(row,row),new Seat(row,row),new Seat(row,row),
+                    new Seat(row,row), new Seat(row, row),
+                    new Seat(row,row),new Seat(row,row),new Seat(row,row)};
+                if(row == 4) seats[row] = new Seat[]{
+                    new Seat(row,row),new Seat(row,row),new Seat(row,row),
+                    new Seat(row,row),new Seat(row,row),
+                    new Seat(row,row),new Seat(row,row),new Seat(row,row)};
+                if(row == 5) seats[row] = new Seat[]{
+                    new Seat(row,row),new Seat(row,row),new Seat(row,row),
+                    new Seat(row,row),new Seat(row,row),
+                    new Seat(row,row),new Seat(row,row),new Seat(row,row)};
+            }
     }
-  
-    public static void main(String[] args){
-        Application.launch(args);
 
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        showTodoView(primaryStage);
     }
-       
-   
-   
+
+    public void showTodoView(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("view/Layout_theaterview.fxml"));
+            Parent todoView = loader.load();
+            stage.setTitle("Todo");
+            stage.setScene(new Scene(todoView, 1024, 576));
+
+            /*Get the controller from the fx:controller attribute of our FXML*/
+            TheaterController controller = loader.getController();
+            
+            // Perhaps put this in controller?
+            
+            for(int row = 0; row < seats.length; row++){
+                    for(int col = 0; col < seats[row].length; col++){
+                        if(seats[row][col] instanceof Seat){
+                            controller.initializeGrid(seats[row][col], col, row);
+                            System.out.print("x");
+                        }else{
+                            System.out.print(" ");
+                            controller.initializeGrid(seats[row][col], col, row);
+                        }
+                    }
+                System.out.println();
+            }
+            
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace(); //Show a dialog or something... ?
+        }
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
 }

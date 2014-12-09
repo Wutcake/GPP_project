@@ -9,13 +9,18 @@ package GPP_project.model;
  */
 public class Seat
 {
-    private int number;
-    private int row;
+    private final int number;
+    private final int row;
     private int reservationID;
+    private boolean isSelected = false;
     
     public Seat(int number, int row){
         this.number = number;
         this.row = row;
+    }
+    
+    public void select(){
+        isSelected = !isSelected;
     }
     
     public void setReservationID(int ID){
@@ -33,5 +38,9 @@ public class Seat
     
     public int getSeatRow(){
         return row;
+    }
+    
+    public boolean isSelected(){
+        return isSelected;
     }
 }
