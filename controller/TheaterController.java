@@ -1,5 +1,6 @@
 package GPP_project.controller;
 
+import GPP_project.model.Screening;
 import GPP_project.model.Seat;
 import GPP_project.model.Theater;
 
@@ -7,6 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
+
+import java.util.ArrayList;
 
 
 /**
@@ -14,16 +18,31 @@ import javafx.scene.layout.GridPane;
  */
 public class TheaterController {
 
+    ArrayList<Seat> toBeReserved = new ArrayList<>();
+    
     @FXML
     private GridPane theater;
     
-    private Theater screeningTheater;
+    @FXML
+    private Text movieField;
+    
+    @FXML
+    private Text infoField;
+    
+    @FXML
+    private Text availableSeatsText;
+    
+    @FXML
+    private Text totalSeatsText;
+    
+    // Needs better method of counting available / total seats...
+    Integer seatCounter = 0;
+    
+    private Screening screeningTheater;
     
     Image img1 = new Image("GPP_project/resources/images/test.png", 32, 32, true, false);
     Image img2 = new Image("GPP_project/resources/images/test1.png", 32, 32, true, false);
     Image img3 = new Image("GPP_project/resources/images/test2.png", 32, 32, true, false);
-    
-    
 
     public TheaterController() {
         
@@ -33,24 +52,31 @@ public class TheaterController {
     private void initialize() {
     }
     
-    public void setTheater(Theater theater){
+    public void setTheater(Screening theater){
         screeningTheater = theater;
         for(int row = 0; row < screeningTheater.getRowAmount(); row++){
             for(int col = 0; col < screeningTheater.getRowLength(); col++){
                 if(screeningTheater.getSeat(row, col) instanceof Seat){
                     initializeGrid(screeningTheater.getSeat(row, col), col, row);
-                    System.out.print("x");
-                    
+                    seatCounter++;
                 }else{
-                    System.out.print(" ");
                     initializeGrid(screeningTheater.getSeat(row, col), col, row);
                 }   
-            }
-            System.out.println();        
+            }     
         }
     }
 
-    public void initializeGrid(Seat seat, int col, int row) {
+    public void setTextFields(Screening screening){
+        movieField.setText(screening.getMovieTitle());
+        infoField.setText(screening.getDay() + "." + screening.getMonth() + "." + screening.getYear() + "\n"
+        + "Sal " + screening.getTheaterNumber() + "\n"
+        + screening.getHour() + " : " + screening.getMinite());
+        
+        availableSeatsText.setText(seatCounter.toString());
+        totalSeatsText.setText(seatCounter.toString());
+    }
+    
+    private void initializeGrid(Seat seat, int col, int row) {
         ImageView imgv = new ImageView();
         
         if(seat != null){
@@ -70,19 +96,21 @@ public class TheaterController {
     }
     
     @FXML
-    private void newButtonHandler(){
-        System.out.println("new btn clicked!");
+    private void reserveButton(){
+        System.out.println("DU HAR TRYKKET RESERVÉR!");
     }
-    
+  
     private void seatSelected(ImageView imgview, Seat seat){
         if(seat.isSelected()){
             imgview.setImage(img1);
             seat.select();
+            toBeReserved.add(seat);
         }else{
             imgview.setImage(img3);
             seat.select();
+            toBeReserved.remove(seat);
         }
-        
-        System.out.println("Stuff happened!");
+        // Test code
+        System.out.println("A seat was selected!");
     }
 }

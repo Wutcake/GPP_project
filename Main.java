@@ -24,8 +24,9 @@ public class Main extends Application {
 
     public Main() {
         // Get screening data ( Currently mock of screening.theater class )
+        
+        // Set up theater
         ArrayList<SeatRow> seats = new ArrayList<>();
-            
         for(int row = 0; row < seatsArr.length; row++){
                 SeatRow seatRow;
                 if(row == 1){
@@ -54,7 +55,18 @@ public class Main extends Application {
                 }
                 seats.add(seatRow);
             }
-        theater1 = new Theater(seats, 1);    
+        theater1 = new Theater(seats, 1); 
+        
+        // Set up movie
+        Movie movie = new Movie("Iron Man 4", 9);
+        
+        // Set up time
+        Time time = new Time(19, 30);
+        
+        // Set up date
+        Date date = new Date(24, 12, 2014);
+        
+        screening = new Screening(movie, theater1, time, date);
     }
 
     @Override
@@ -81,7 +93,8 @@ public class Main extends Application {
 
             /*Get the controller from the fx:controller attribute of our FXML*/
             TheaterController controller = loader.getController();
-            controller.setTheater(theater1);
+            controller.setTheater(screening);
+            controller.setTextFields(screening);
             
             stage.setTitle("Widere Biograf");
             stage.setScene(new Scene(todoView, 1024, 576));
