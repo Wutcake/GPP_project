@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import javafx.scene.layout.Pane;
 
 /**
  * Alexander Bergendorff version 05-12-2014.
@@ -50,7 +51,18 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         showTodoView(primaryStage);
     }
-
+    public void showReservations(Stage stage) throws IOException{
+        Pane root = new Pane();
+        Parent layout = FXMLLoader.load(getClass().getResource("Layout_Reservationview.fxml"));
+        
+        Scene scene = new Scene(root);
+        root.getChildren().add(layout);
+        
+        stage.setTitle("Widere Biograf");
+        stage.setScene(scene);
+        stage.show();
+        
+    }
     public void showTodoView(Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader();
