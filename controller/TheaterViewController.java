@@ -2,9 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package GPP_project.controller;
 
-import model.Seat;
+import GPP_project.model.Seat;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;

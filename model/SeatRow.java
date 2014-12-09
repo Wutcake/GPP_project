@@ -1,4 +1,4 @@
-package model;
+package GPP_project.model;
 
 import java.util.ArrayList;
 
