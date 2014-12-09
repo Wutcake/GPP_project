@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.fxml.Initializable;
-import javafxreservation.Reservation;
+import GPP_project.model.Reservation;
 
 /**
  *
@@ -49,7 +49,7 @@ public class ReservationController implements Initializable {
         
         ArrayList<Reservation> reservations= new ArrayList();
         for(int n=0;n<10;n++){
-            Reservation test= new Reservation(n,"Name"+n);
+            Reservation test= new Reservation(null,"Name"+n, 1);
             reservations.add(test);
         }
         //Generates an ArrayList of buttons based on a list of Reservations
