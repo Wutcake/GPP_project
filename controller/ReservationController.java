@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.control.TextField;
 import javafx.fxml.Initializable;
 import javafxreservation.Reservation;
 
@@ -26,32 +27,29 @@ public class ReservationController implements Initializable {
     //Initialises Containers and textfields from Reservationsside.fxml
     @FXML //fx:id="ButtonPane"
     private VBox ButtonPane;
-    
+    @FXML
+    private TextField SearchBar;
+    @FXML
+    private Button SearchButton;
     @FXML
     private Text NameField;
-    
     @FXML
     private Text TitleField;
-    
     @FXML
-    private Text Theaterfield;
-    
+    private Text TheaterField;
     @FXML
     private Text SeatField;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-      MakeButtons(ButtonPane, NameField);
+        ArrayList<Reservation> reservations= new ArrayList();
+        reservations = ALLReservations;
+        MakeButtons(ButtonPane, NameField, TitleField, TheaterField,SeatField);
         
     }
     
     
-    public void MakeButtons(VBox ButtonPane, Text Namefield) {
+    public void MakeButtons(VBox ButtonPane, Text Namefield, Text TitleField, Text TheaterField, Text SeatField) {
         
-        ArrayList<Reservation> reservations= new ArrayList();
-        for(int n=0;n<10;n++){
-            Reservation test= new Reservation(n,"Name"+n);
-            reservations.add(test);
-        }
         //Generates an ArrayList of buttons based on a list of Reservations
         //To be shown in the reservation overview.
         ArrayList<Button> resButtons = new ArrayList();
@@ -81,5 +79,6 @@ public class ReservationController implements Initializable {
         }
         
     }  
+    public void Search
     
 }

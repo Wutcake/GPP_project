@@ -28,10 +28,12 @@
                                  </children></AnchorPane>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                  <children>
-                                    <Text fx:id="NameField" layoutX="14.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" wrappingWidth="151.13671875" />
-                                    <Text fx:id="TitleField" layoutX="14.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Movie title" wrappingWidth="217.13671875" />
-                                    <Text fx:id="SeatField" layoutX="14.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seats" wrappingWidth="183.13671875" />
-                                    <Text fx:id="TheaterField" layoutX="14.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Theater" />
+                                    <Text fx:id="NameField" layoutX="14.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" wrappingWidth="151.13671875" />
+                                    <Text fx:id="TitleField" layoutX="14.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Movie title" wrappingWidth="217.13671875" />
+                                    <Text fx:id="SeatField" layoutX="14.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seats" wrappingWidth="183.13671875" />
+                                    <Text fx:id="TheaterField" layoutX="14.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Theater" />
+                                    <TextField fx:id="SearchBar" layoutX="31.0" layoutY="14.0" prefHeight="25.0" prefWidth="429.0" promptText="Name Search" />
+                                    <Button fx:id="SearchButton" layoutX="460.0" layoutY="14.0" mnemonicParsing="false" />
                                  </children></AnchorPane>
                           </items>
                         </SplitPane>
