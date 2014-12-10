@@ -22,6 +22,10 @@ public class Theater
         return theaterNumber;
     }
     
+    public Seat getSeat(int row, int col){
+        return seatRows.get(row).getSeat(col);
+    }
+    
     // Seat methods
     public int getSeatNumber(int row, int column){
         return seatRows.get(row).getSeatNumber(column);

@@ -17,6 +17,11 @@ public class SeatRow
         
     }
     
+    public Seat getSeat(int col){
+        return seatRow.get(col);
+    }
+    
+    
     public int getSeatNumber(int column){
         return seatRow.get(column).getSeatNumber();
     }

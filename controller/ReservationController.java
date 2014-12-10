@@ -7,7 +7,6 @@ package GPP_project.controller;
 
 import java.net.URL;
 import javafx.fxml.FXML;
-import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,7 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
 import javafx.fxml.Initializable;
-import javafxreservation.Reservation;
+import GPP_project.model.Reservation;
 
 /**
  *
@@ -42,7 +41,7 @@ public class ReservationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         ArrayList<Reservation> reservations= new ArrayList();
-        reservations = ALLReservations;
+        
         MakeButtons(ButtonPane, NameField, TitleField, TheaterField,SeatField);
         
     }
@@ -50,6 +49,13 @@ public class ReservationController implements Initializable {
     
     public void MakeButtons(VBox ButtonPane, Text Namefield, Text TitleField, Text TheaterField, Text SeatField) {
         
+
+        ArrayList<Reservation> reservations= new ArrayList();
+        for(int n=0;n<10;n++){
+            Reservation test= new Reservation(null,"Name"+n, 1);
+            reservations.add(test);
+        }
+
         //Generates an ArrayList of buttons based on a list of Reservations
         //To be shown in the reservation overview.
         ArrayList<Button> resButtons = new ArrayList();
@@ -79,6 +85,8 @@ public class ReservationController implements Initializable {
         }
         
     }  
-    public void Search
+    //public void Search(Statement statement){
+        
+    //}
     
 }

@@ -1,5 +1,9 @@
 package GPP_project.model;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableValue;
+
 
 /**
  * Write a description of class Seat here.
@@ -11,12 +15,13 @@ public class Seat
 {
     private final int number;
     private final int row;
-    private int reservationID;
+    private final IntegerProperty reservationID = new SimpleIntegerProperty();
     private boolean isSelected = false;
     
     public Seat(int number, int row){
         this.number = number;
         this.row = row;
+        reservationID.set(0);
     }
     
     public void select(){
@@ -24,12 +29,20 @@ public class Seat
     }
     
     public void setReservationID(int ID){
-        reservationID = ID;
+        reservationID.set(ID);
         return;
     }
     
-    public int getReservationID(){
+    public IntegerProperty reservationIDProperty(){
         return reservationID;
+    }
+    
+    public int getValue(){
+        return reservationID.get();
+    }
+    
+    public int getReservationID(){
+        return reservationID.get();
     }
     
     public int getSeatNumber(){

@@ -31,6 +31,10 @@ public class Screening
         return theater.getTheaterNumber();
     }
     
+    public Seat getSeat(int row, int col){
+        return theater.getSeat(row, col);
+    }
+    
     public int getSeatNumber(int row, int column){
         return theater.getSeatNumber(row, column);
     }
