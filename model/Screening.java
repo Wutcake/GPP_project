@@ -13,7 +13,6 @@ public class Screening
     private Date date;
     private int seatsReserved = 0;
     
-    
     public Screening(Movie movie, int theaterID, String time, String date){
         this.movie = movie;
         this.theaterID = theaterID;
@@ -24,27 +23,6 @@ public class Screening
     // Theater accessor methods
     public int getTheaterNumber(){
         return theaterID;
-        return theater.getTheaterNumber();
-    }
-    
-    public Seat getSeat(int row, int col){
-        return theater.getSeat(row, col);
-    }
-    
-    public int getSeatNumber(int row, int column){
-        return theater.getSeatNumber(row, column);
-    }
-    
-    public int getRowLength(){
-        return theater.getRowLength();
-    }
-    
-    public int getRowAmount(){
-        return theater.getRowAmount();
-    }
-    
-    public int getReservationID(int row, int column){
-        return theater.getReservationID(row, column);
     }
     
     // Movie accessor methods
@@ -72,11 +50,6 @@ public class Screening
     
     public int getMinute(){
         return time.getMinute();
-    }
-
-    public void setSeatsReserved(int seatsReserved)
-    {
-        this.seatsReserved = seatsReserved;
     }
 
     public String toString()
