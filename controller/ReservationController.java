@@ -45,7 +45,7 @@ public class ReservationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         reservations = ALLReservations;
-        Image SearchIcon = new Image(getClass().getResourceAsStream("SearchIcon.png"));
+        Image SearchIcon = new Image(getClass().getResourceAsStream("GPP_Prooject/resources/images/SearchIcon.png"));
         SearchButton.setGraphic(new ImageView(SearchIcon));
         SearchButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
