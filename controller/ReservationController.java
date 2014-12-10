@@ -75,9 +75,9 @@ public class ReservationController implements Initializable {
                     @Override
                     public void handle(ActionEvent event) {
                         Namefield.setText(res.getName());
-                        //TitleField.setText(res.getScreening.getMovieTitle());
-                        //TheaterField.setText("Theater: "+res.getScreening.getTheaternumber());
-                        //Seatfield.setText("Seats: "+res.getSeats(@@@orsomething!@@@);
+                        TitleField.setText(res.getScreening.getMovieTitle());
+                        TheaterField.setText("Theater: "+res.getScreening.getTheaternumber());
+                        //SeatField.setText("Seats: "+res.getSeats(@@@orsomething!@@@);
                     }
                 });
             resButtons.add(btn);
@@ -88,8 +88,25 @@ public class ReservationController implements Initializable {
         }
         
     }  
-    public void Search(Statement statement){
-        
+    public void Search(Statement statement) throws Exception{
+        Reservation JD=reservations.get(0);
+        reservations.clear();
+        reservations.add(JD);
+        String query = "SELECT * FROM Customers WHERE Name RLIKE"+SearchBar.textProperty();
+        ResultSet rs = statement.executeQuery(query);
+        ArrayList<Integer> IDs = new ArrayList();   
+        while(rs.next()){
+            int CustomerID = rs.getInt("CustomerID");
+            IDs.add(CustomerID);
+        }
+        for(int i: IDs){
+            query = "SELECT * FROM Reservations WHERE CustomerID="+i;
+            rs = statement.executeQuery(query);
+            while(rs.next()){
+                int scrnID = rs.getInt("ScreeningID");
+                Reservation res = new Reservation(ALLScreenings.get(scrnID),ALLCustomers.get(i));
+            }
+        }
     }
     
 }
