@@ -18,14 +18,21 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
 import javafx.fxml.Initializable;
-import GPP_project.model.Reservation;
+import GPP_project.model.*;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 /**
  *
  * @author Erik
  */
 public class ReservationController implements Initializable {
-    private ArrayList reservations;
+    private ArrayList<Reservation> reservations;
+    private final ArrayList<Reservation> ALLReservations;
+    private final ArrayList<Customer> ALLCustomers;
+    private final ArrayList<Screening> ALLScreenings;
+    private final Statement SQLstate;
+    
     //Initialises Containers and textfields from Reservationsside.fxml
     @FXML //fx:id="ButtonPane"
     private VBox ButtonPane;
@@ -41,22 +48,25 @@ public class ReservationController implements Initializable {
     private Text TheaterField;
     @FXML
     private Text SeatField;
-    
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    public ReservationController(ArrayList<Customer> ALLCustomers,ArrayList<Reservation> ALLReservations,ArrayList<Screening> ALLScreenings, Statement statement){
+        this.ALLCustomers=ALLCustomers;
+        this.ALLReservations=ALLReservations;
+        this.ALLScreenings=ALLScreenings;
+        SQLstate=statement;
+        
         reservations = ALLReservations;
         Image SearchIcon = new Image(getClass().getResourceAsStream("GPP_Prooject/resources/images/SearchIcon.png"));
         SearchButton.setGraphic(new ImageView(SearchIcon));
         SearchButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event){
-                Search();
+                Search(SQLstate);
             }
         });
         
         MakeButtons(ButtonPane, NameField, TitleField, TheaterField,SeatField);
-    }
-    
+        
+    } 
     
     public void MakeButtons(VBox ButtonPane, Text Namefield, Text TitleField, Text TheaterField, Text SeatField) {
         
@@ -94,7 +104,7 @@ public class ReservationController implements Initializable {
         reservations.add(JD);
         String query = "SELECT * FROM Customers WHERE Name RLIKE"+SearchBar.textProperty();
         ResultSet rs = statement.executeQuery(query);
-        ArrayList<Integer> IDs = new ArrayList();   
+        ArrayList<Integer> IDs = new ArrayList();
         while(rs.next()){
             int CustomerID = rs.getInt("CustomerID");
             IDs.add(CustomerID);
