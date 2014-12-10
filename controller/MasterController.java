@@ -143,7 +143,7 @@ public class MasterController {
 
         ResultSet rs = statement.executeQuery(query);
 
-        ALLSeats.add(new Seat(0));
+        ALLSeats.add(new Seat(0,0));
         ALLSeatsTheaterRowCol.add(new ArrayList<ArrayList<Seat>>());
         ALLSeatsTheaterRowCol.get(0).add(new ArrayList<Seat>());
         ALLSeatsTheaterRowCol.get(0).get(0).add(ALLSeats.get(0));
@@ -154,7 +154,7 @@ public class MasterController {
             int seatID = rs.getInt("SeatID");
             int number = rs.getInt("Number");
 
-            ALLSeats.add(new Seat(number));
+            ALLSeats.add(new Seat(number, seatID));
 
             int theater = rs.getInt("Theater");
             int row = rs.getInt("Row");

@@ -13,32 +13,20 @@ import javafx.beans.value.ObservableValue;
  */
 public class Seat
 {
+    private final int seatID;
     private final int number;
-    private final IntegerProperty reservationID = new SimpleIntegerProperty();
     private boolean isSelected = false;
     
-    public Seat(int number){
+    public Seat(int number, int seatID){
+        this.seatID = seatID;
         this.number = number;
-        reservationID.set(0);
     }
     
     public void select(){
         isSelected = !isSelected;
     }
-
-    public void setReservationID(int ID){
-        reservationID.set(ID);
-    }
-    
-    public IntegerProperty reservationIDProperty(){
-        return reservationID;
-    }
     
     public int getValue(){
-        return reservationID.get();
-    }
-    
-    public int getReservationID(){
         return reservationID.get();
     }
 
