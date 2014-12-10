@@ -75,9 +75,9 @@ public class ReservationController implements Initializable {
                     @Override
                     public void handle(ActionEvent event) {
                         Namefield.setText(res.getName());
-                        TitleField.setText(res.getScreening.getMovieTitle());
-                        TheaterField.setText("Theater: "+res.getScreening.getTheaternumber());
-                        //SeatField.setText("Seats: "+res.getSeats(@@@orsomething!@@@);
+                        TitleField.setText(res.getScreening().getMovieTitle());
+                        TheaterField.setText("Theater: "+res.getScreening().getTheaterNumber());
+                        SeatField.setText(res.printSeats());
                     }
                 });
             resButtons.add(btn);

@@ -20,7 +20,9 @@ public class Reservation
         this.screening = screening;
         this.customer = customer;
     }
-    
+    public Screening getScreening(){
+        return screening;
+    }
     public int getPhoneNumber(){
         return customer.getPhoneNumber();
     }
@@ -40,5 +42,12 @@ public class Reservation
 
     public String toString(){
         return screening + "; " + customer + "; " + seats;
+    }
+    public String printSeats(){
+        String sts = "Seats: ";
+        for(Seat i : seats.seats){
+            sts = sts+i.getSeatNumber()+", ";
+        }
+        return sts;
     }
 }
