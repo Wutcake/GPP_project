@@ -1,4 +1,4 @@
-package GPP_project.model;
+package model;
 /**
  * Write a description of class Movie here.
  * 
@@ -8,19 +8,23 @@ package GPP_project.model;
 public class Movie
 {
     private String movieTitle;
-    private int movieID;
+    private String length;
     
-    public Movie(String movieTitle, int movieID){
+    public Movie(String movieTitle, String length){
         this.movieTitle = movieTitle;
-        this.movieID = movieID;
+        this.length = length;
     }
     
     public String getMovieTitle(){
         return movieTitle;
     }
-    
-    public int getMovieID(){
-        return movieID;
+
+    public String getLength(){
+        return length;
+    }
+
+    public String toString(){
+        return "movieTitle '" + movieTitle + "'; length '" + length + "'";
     }
 
 }

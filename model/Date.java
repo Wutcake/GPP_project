@@ -1,4 +1,4 @@
-package GPP_project.model;
+package model;
 /**
  * Write a description of class Date here.
  * 
@@ -10,11 +10,16 @@ public class Date
     private int day;
     private int month;
     private int year;
-    
+    private String date;
+
     public Date(int day, int month, int year){
         this.day = day;
         this.month = month;
         this.year = year;
+    }
+
+    public Date(String date){
+        this.date = date;
     }
     
     public int getDay(){
@@ -28,5 +33,8 @@ public class Date
     public int getYear(){
         return year;
     }
-    
+
+    public String toString(){
+        return "date '" + date + "'";
+    }
 }

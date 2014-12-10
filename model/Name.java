@@ -1,6 +1,7 @@
-package GPP_project.model;
+package model;
+
 /**
- * Write a description of class Name here.
+ * Write a description of class model.Name here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
@@ -15,5 +16,9 @@ public class Name
     
     public String getName(){
         return name;
+    }
+
+    public String toString(){
+        return "name '" + name + "'";
     }
 }

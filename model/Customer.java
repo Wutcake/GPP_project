@@ -1,6 +1,7 @@
-package GPP_project.model;
+package model;
+
 /**
- * Write a description of class Customer here.
+ * Write a description of class model.Customer here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
@@ -28,6 +29,10 @@ public class Customer
     
     public int getReservationID(){
         return reservationID;
+    }
+
+    public String toString(){
+        return name + "; " + phoneNumber;
     }
     
 }

@@ -1,4 +1,4 @@
-package GPP_project.model;
+package model;
 /**
  * Write a description of class Screening here.
  * 
@@ -8,52 +8,27 @@ package GPP_project.model;
 public class Screening
 {
     private Movie movie;
-    private Theater theater;
+    private int theaterID;
     private Time time;
     private Date date;
-    private int screeningID;
+    private int seatsReserved = 0;
     
     
-    public Screening(Movie movie, Theater theater, Time time, Date date){
+    public Screening(Movie movie, int theaterID, String time, String date){
         this.movie = movie;
-        this.theater = theater;
-        this.time = time;
-        this.date = date;    
+        this.theaterID = theaterID;
+        this.time = new Time(time);
+        this.date = new Date(date);
     }
-    // Screening methods
-    public void setScreeningID(int ID){
-        screeningID = ID;
-    }
-    
     
     // Theater accessor methods
     public int getTheaterNumber(){
-        return theater.getTheaterNumber();
-    }
-    
-    public int getSeatNumber(int row, int column){
-        return theater.getSeatNumber(row, column);
-    }
-    
-    public int getRowLength(){
-        return theater.getRowLength();
-    }
-    
-    public int getRowAmount(){
-        return theater.getRowAmount();
-    }
-    
-    public int getReservationID(int row, int column){
-        return theater.getReservationID(row, column);
+        return theaterID;
     }
     
     // Movie accessor methods
     public String getMovieTitle(){
         return movie.getMovieTitle();
-    }
-    
-    public int getMovieID(){
-        return movie.getMovieID();
     }
     
     // Date accessor methods
@@ -74,7 +49,17 @@ public class Screening
         return time.getHour();
     }
     
-    public int getMinite(){
+    public int getMinute(){
         return time.getMinute();
+    }
+
+    public void setSeatsReserved(int seatsReserved)
+    {
+        this.seatsReserved = seatsReserved;
+    }
+
+    public String toString()
+    {
+        return "seatsReserved int(" + seatsReserved + "); " + movie + "; theaterID int(" + theaterID + "); " + time + "; " + date;
     }
 }
