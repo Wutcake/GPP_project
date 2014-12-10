@@ -1,5 +1,6 @@
 package GPP_project.controller;
 
+import GPP_project.model.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -202,4 +203,6 @@ public class MasterController {
         }
         rs.close();
     }
+    
+
 }

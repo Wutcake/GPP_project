@@ -1,5 +1,7 @@
 package GPP_project.controller;
 
+import GPP_project.model.Customer;
+import GPP_project.model.Reservation;
 import GPP_project.model.Screening;
 import GPP_project.model.Seat;
 import java.sql.ResultSet;
@@ -13,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
@@ -50,7 +53,9 @@ public class TheaterController {
     
     
     private Screening screeningTheater;
-    private ArrayList<Seat> toBeReserved = new ArrayList<>();
+    private ArrayList<Seat> toBeReserved;
+    private ArrayList<Customer> ALLCustomers;
+    private ArrayList<Reservation> ALLReservations;
     private ArrayList<ArrayList<Seat>> ALLSeatsRowCol;
     private ArrayList<Seat> ALLSeats;
     private ArrayList<ArrayList<IntegerProperty>> reservationIDsRowCol;
@@ -66,33 +71,28 @@ public class TheaterController {
     Image img4 = new Image("GPP_project/resources/images/test3.png", 32, 32, true, false);
 
     public TheaterController(Statement SQLStatement, ArrayList<ArrayList<Seat>> ALLSeatsTheaterRowCol, 
-            ArrayList<Seat> ALLSeats, Screening screening, int screeningID) throws Exception{
+            ArrayList<Seat> ALLSeats, ArrayList<Customer> ALLCustomers, ArrayList<Reservation> ALLReservations, Screening screening, int screeningID) throws Exception{
         
         this.ALLSeats = ALLSeats;
         this.ALLSeatsRowCol = ALLSeatsTheaterRowCol;
+        this.ALLCustomers = ALLCustomers;
+        this.ALLReservations = ALLReservations;
         this.SQLStatement = SQLStatement;
         
         this.screeningID = screeningID;
         screeningTheater = screening;
-        setTheater(SQLStatement);
+        setTheater();
         
     }
     
-    @FXML
-    private void initialize() {
-    }
-    
-    
-    
-    public void setTheater(Statement SQLStatement) throws Exception{
+    public void setTheater() throws Exception{
         reservationIDsRowCol.clear();
         reservationIDsRowCol.add(new ArrayList<IntegerProperty>());
         for(int row = 1; row < ALLSeatsRowCol.size(); row++){
             reservationIDsRowCol.add(new ArrayList<IntegerProperty>());
             reservationIDsRowCol.get(row).add(new SimpleIntegerProperty(0));
             for(int col = 1; col < ALLSeatsRowCol.get(row).size(); col++){
-                reservationIDsRowCol.get(row).add(new SimpleIntegerProperty(getReservationID(SQLStatement, getSeat(row, col).getSeatID())));
-                    
+                reservationIDsRowCol.get(row).add(new SimpleIntegerProperty(getReservationID(getSeat(row, col).getID())));
                 if(getSeat(row, col).getSeatNumber() > 0){
                     initializeGrid(getSeat(row, col), col, row);
                     seatCounter++;
@@ -116,10 +116,10 @@ public class TheaterController {
     
     private void initializeGrid(Seat seat, int col, int row) {
         ImageView imgv = new ImageView();
-        int reservationID = reservationIDsRowCol.get(row).get(col);
+        IntegerProperty reservationID = reservationIDsRowCol.get(row).get(col);
         
         if(seat.getSeatNumber() > 0){
-            if(reservationID == 0){
+            if(reservationID.get() == 0){
                 // lambda expression
                 imgv.setOnMouseClicked(evt -> 
                     seatSelected(imgv, seat)
@@ -130,7 +130,7 @@ public class TheaterController {
                 imgv.setImage(img4);
                 theater.add(imgv, col, row);
             }
-            seat.reservationIDProperty().addListener(new ChangeListener(){
+            reservationID.addListener(new ChangeListener(){
                 @Override public void changed(ObservableValue o, Object oldVal, Object newVal){
                     seatReserved(imgv);}
             });
@@ -142,14 +142,45 @@ public class TheaterController {
     }
     
     @FXML
-    private void reserveButton(){
+    private void reserveButton() throws Exception{
         System.out.println("DU HAR TRYKKET RESERVÉR!");
-        System.out.println(nameInput.getCharacters().toString());
-        System.out.println(phoneNumberInput.getCharacters().toString());
+        Scanner scanner;
+        
+        
+        String name = nameInput.getCharacters().toString();
+        int phoneNumber = 0;
+        
+        
+        String toParse = phoneNumberInput.getCharacters().toString();
+        scanner = new Scanner(toParse);
+        
+        phoneNumber = scanner.nextInt();
+        Customer currentCustomer;
+        
+        //1. MySQL query check if customer exists
+        int customerID = checkCustomer(name, phoneNumber);
+        
+        if(customerID == 0){
+            customerID = ALLCustomers.size();
+            createCustomer(customerID, name, phoneNumber);
+        }
+        
+        currentCustomer = ALLCustomers.get(customerID);
+        //1b. If not, make one w. name and number
+        
+        //2. Create reservation w. customer for this screening.
+        
+        //2.1. Create reservation object(screening, customer);
+        int reservationID = ALLReservations.size();
+        Reservation currentReservation = new Reservation(screeningTheater, currentCustomer);
+        ALLReservations.add(currentReservation);
+        
+        //3. Reserve seats
+        //3.1. Reserve in object
+        //3.2. Reserve in Database
         for(int counter = 0; counter < toBeReserved.size(); counter++){
             toBeReserved.get(counter).select();
-            toBeReserved.get(counter).setReservationID(25);
-            System.out.println(toBeReserved.get(counter) + " has been reserved.");
+            reserveNewSeat(reservationID, customerID, toBeReserved.get(counter));
         }
         amountSelected = 0;
         toBeReserved.clear();
@@ -161,15 +192,14 @@ public class TheaterController {
     }
   
     private void seatSelected(ImageView imgview, Seat seat){
-        if(seat.isSelected()){
+        seat.select();
+        if(!seat.isSelected()){
             imgview.setImage(img1);
-            seat.select();
             amountSelected--;
             System.out.println("removed: " + toBeReserved.get(amountSelected));
             toBeReserved.remove(seat);
         }else{
             imgview.setImage(img3);
-            seat.select();
             toBeReserved.add(seat);
             System.out.println("added: " + toBeReserved.get(amountSelected));
             amountSelected++;
@@ -182,7 +212,7 @@ public class TheaterController {
         return ALLSeatsRowCol.get(row).get(col);
     }
     
-    private int getReservationID(Statement SQLStatement, int seatID) throws Exception{
+    private int getReservationID(int seatID) throws Exception{
         String query = "SELECT * FROM ReservedSeats WHERE SeatID = " + seatID + "AND ScreeningID = " + screeningID;
         ResultSet rs = SQLStatement.executeQuery(query);
         
@@ -190,6 +220,40 @@ public class TheaterController {
         int customerID = rs.getInt("CustomerID");
         rs.close();
         return customerID;
+    }
+    
+    private int checkCustomer(String name, int phoneNumber) throws Exception{
+        String query = "SELECT * FROM Customers WHERE Name = " + name + " AND PhoneNumber = " + phoneNumber;
+        ResultSet rs = SQLStatement.executeQuery(query);
+        
+        if(rs.next()){
+            int customerID = rs.getInt("CustomerID");
+            if(rs.getInt(customerID) > 0){
+                rs.close();
+                return customerID;
+            }
+            rs.close();
+            return 0;
+        }
+        rs.close();
+        return 0;
+    }
+    
+    private void createCustomer(int customerID, String name, int phoneNumber) throws Exception{
+        String update = "INSERT INTO Customers (CustomerID, Name, PhoneNumber) VALUES (" + customerID + ", '" +  name + "', " + phoneNumber + ")";
+        Customer currentCustomer = new Customer(name, phoneNumber);
+        
+        ALLCustomers.add(currentCustomer);
+
+        SQLStatement.executeUpdate(update);
+    }
+    
+    private void reserveNewSeat(int reservationID, int customerID, Seat seat) throws Exception{
+        String update = "INSERT INTO Reservations (ReservationID, ScreeningID, CustomerID, SeatID) VALUES (" + reservationID + ", " + screeningID + ", " + customerID + ", " + seat.getID() + ")";
+        ALLReservations.get(reservationID).reserveNewSeat(seat);
+        
+        SQLStatement.executeUpdate(update);
+    
     }
     
 }

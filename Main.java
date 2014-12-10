@@ -20,7 +20,6 @@ import java.util.ArrayList;
 public class Main extends Application {
     Seat[][] seatsArr = new Seat[6][];
     Screening screening;
-    Theater theater1;
 
     public Main() {
         // Get screening data ( Currently mock of screening.theater class )

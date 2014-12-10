@@ -26,8 +26,8 @@ public class Seat
         isSelected = !isSelected;
     }
     
-    public int getValue(){
-        return reservationID.get();
+    public int getID(){
+        return seatID;
     }
 
     public int getSeatNumber(){
