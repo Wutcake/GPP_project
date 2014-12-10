@@ -1,4 +1,4 @@
-package model;
+package GPP_project.model;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -19,7 +19,6 @@ public class Seat
     
     public Seat(int number){
         this.number = number;
-        this.row = row;
         reservationID.set(0);
     }
     

@@ -1,4 +1,4 @@
-package model;
+package GPP_project.model;
 
 /**
  * Write a description of class model.Customer here.

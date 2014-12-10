@@ -1,4 +1,4 @@
-package controller;
+package GPP_project.controller;
 
 
 import java.sql.Connection;

@@ -2,6 +2,8 @@ package GPP_project.controller;
 
 import GPP_project.model.Screening;
 import GPP_project.model.Seat;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
@@ -11,6 +13,8 @@ import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
 
 import java.util.ArrayList;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
@@ -41,10 +45,16 @@ public class TheaterController {
     private TextField phoneNumberInput;
     
     // Needs better method of counting available / total seats...
-    Integer seatCounter = 0, amountSelected = 0;
+    private Integer seatCounter = 0, amountSelected = 0;
+    private int screeningID;
+    
     
     private Screening screeningTheater;
     private ArrayList<Seat> toBeReserved = new ArrayList<>();
+    private ArrayList<ArrayList<Seat>> ALLSeatsRowCol;
+    private ArrayList<Seat> ALLSeats;
+    private ArrayList<ArrayList<IntegerProperty>> reservationIDsRowCol;
+    private Statement SQLStatement;
     
     // Not reserved, selected or null.
     Image img1 = new Image("GPP_project/resources/images/test.png", 32, 32, true, false);
@@ -55,7 +65,16 @@ public class TheaterController {
     // Reserved
     Image img4 = new Image("GPP_project/resources/images/test3.png", 32, 32, true, false);
 
-    public TheaterController() {
+    public TheaterController(Statement SQLStatement, ArrayList<ArrayList<Seat>> ALLSeatsTheaterRowCol, 
+            ArrayList<Seat> ALLSeats, Screening screening, int screeningID) throws Exception{
+        
+        this.ALLSeats = ALLSeats;
+        this.ALLSeatsRowCol = ALLSeatsTheaterRowCol;
+        this.SQLStatement = SQLStatement;
+        
+        this.screeningID = screeningID;
+        screeningTheater = screening;
+        setTheater(SQLStatement);
         
     }
     
@@ -63,17 +82,25 @@ public class TheaterController {
     private void initialize() {
     }
     
-    public void setTheater(Screening theater){
-        screeningTheater = theater;
-        for(int row = 0; row < screeningTheater.getRowAmount(); row++){
-            for(int col = 0; col < screeningTheater.getRowLength(); col++){
-                if(screeningTheater.getSeat(row, col) instanceof Seat){
-                    initializeGrid(screeningTheater.getSeat(row, col), col, row);
+    
+    
+    public void setTheater(Statement SQLStatement) throws Exception{
+        reservationIDsRowCol.clear();
+        reservationIDsRowCol.add(new ArrayList<IntegerProperty>());
+        for(int row = 1; row < ALLSeatsRowCol.size(); row++){
+            reservationIDsRowCol.add(new ArrayList<IntegerProperty>());
+            reservationIDsRowCol.get(row).add(new SimpleIntegerProperty(0));
+            for(int col = 1; col < ALLSeatsRowCol.get(row).size(); col++){
+                reservationIDsRowCol.get(row).add(new SimpleIntegerProperty(getReservationID(SQLStatement, getSeat(row, col).getSeatID())));
+                    
+                if(getSeat(row, col).getSeatNumber() > 0){
+                    initializeGrid(getSeat(row, col), col, row);
                     seatCounter++;
                 }else{
-                    initializeGrid(screeningTheater.getSeat(row, col), col, row);
+                    initializeGrid(getSeat(row, col), col, row);
                 }   
             }     
+            
         }
     }
 
@@ -81,7 +108,7 @@ public class TheaterController {
         movieField.setText(screening.getMovieTitle());
         infoField.setText(screening.getDay() + "." + screening.getMonth() + "." + screening.getYear() + "\n"
         + "Sal " + screening.getTheaterNumber() + "\n"
-        + screening.getHour() + " : " + screening.getMinite());
+        + screening.getHour() + " : " + screening.getMinute());
         
         availableSeatsText.setText(seatCounter.toString());
         totalSeatsText.setText(seatCounter.toString());
@@ -89,8 +116,10 @@ public class TheaterController {
     
     private void initializeGrid(Seat seat, int col, int row) {
         ImageView imgv = new ImageView();
-        if(seat != null){
-            if(seat.getReservationID() == 0){
+        int reservationID = reservationIDsRowCol.get(row).get(col);
+        
+        if(seat.getSeatNumber() > 0){
+            if(reservationID == 0){
                 // lambda expression
                 imgv.setOnMouseClicked(evt -> 
                     seatSelected(imgv, seat)
@@ -148,4 +177,19 @@ public class TheaterController {
         // Test code
         System.out.println("A seat was selected!");
     }
+    
+    private Seat getSeat(int row, int col){
+        return ALLSeatsRowCol.get(row).get(col);
+    }
+    
+    private int getReservationID(Statement SQLStatement, int seatID) throws Exception{
+        String query = "SELECT * FROM ReservedSeats WHERE SeatID = " + seatID + "AND ScreeningID = " + screeningID;
+        ResultSet rs = SQLStatement.executeQuery(query);
+        
+        rs.next();
+        int customerID = rs.getInt("CustomerID");
+        rs.close();
+        return customerID;
+    }
+    
 }
