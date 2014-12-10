@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxreservation.JavaFXReservation">
+   <center>
+      <TabPane prefHeight="27.0" prefWidth="1024.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Reservationer">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="399.0" prefWidth="1024.0">
+                     <children>
+                        <SplitPane dividerPositions="0.3287671232876712" prefHeight="547.0" prefWidth="1024.0">
+                          <items>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                    <ScrollPane prefHeight="545.0" prefWidth="333.0">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="543.0" prefWidth="331.0">
+                                             <children>
+                                                <VBox fx:id="ButtonPane" prefHeight="545.0" prefWidth="332.0" />
+                                             </children></AnchorPane>
+                                      </content>
+                                    </ScrollPane>
+                                 </children></AnchorPane>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                                 <children>
+                                    <Text fx:id="NameField" layoutX="14.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" wrappingWidth="151.13671875" />
+                                    <Text fx:id="TitleField" layoutX="14.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Movie title" wrappingWidth="217.13671875" />
+                                    <Text fx:id="SeatField" layoutX="14.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seats" wrappingWidth="183.13671875" />
+                                    <Text fx:id="TheaterField" layoutX="14.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Theater" />
+                                    <TextField fx:id="SearchBar" layoutX="31.0" layoutY="14.0" prefHeight="25.0" prefWidth="429.0" promptText="Name Search" />
+                                    <Button fx:id="SearchButton" layoutX="460.0" layoutY="14.0" mnemonicParsing="false" />
+                                 </children></AnchorPane>
+                          </items>
+                        </SplitPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Kalender">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+            <Tab text="Se Sale">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>

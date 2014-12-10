@@ -24,6 +24,27 @@ public class Screening
     // Theater accessor methods
     public int getTheaterNumber(){
         return theaterID;
+        return theater.getTheaterNumber();
+    }
+    
+    public Seat getSeat(int row, int col){
+        return theater.getSeat(row, col);
+    }
+    
+    public int getSeatNumber(int row, int column){
+        return theater.getSeatNumber(row, column);
+    }
+    
+    public int getRowLength(){
+        return theater.getRowLength();
+    }
+    
+    public int getRowAmount(){
+        return theater.getRowAmount();
+    }
+    
+    public int getReservationID(int row, int column){
+        return theater.getReservationID(row, column);
     }
     
     // Movie accessor methods
