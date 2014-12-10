@@ -46,6 +46,17 @@
                                              </children>
                                           </HBox>
                                        </center>
+                                       <left>
+                                          <VBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                             <children>
+                                                <TextField fx:id="nameInput" promptText="Navn (Fornavn, Efternavn)" />
+                                                <TextField fx:id="phoneNumberInput" promptText="Tlf. nummer" />
+                                             </children>
+                                             <padding>
+                                                <Insets left="5.0" />
+                                             </padding>
+                                          </VBox>
+                                       </left>
                                     </BorderPane>
                                  </center>
                               </BorderPane>

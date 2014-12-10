@@ -27,7 +27,7 @@ public class Main extends Application {
         
         // Set up theater
         ArrayList<SeatRow> seats = new ArrayList<>();
-        for(int row = 0; row < seatsArr.length; row++){
+        for(int row = 0; row < 6; row++){
                 SeatRow seatRow;
                 if(row == 1){
                     ArrayList<Seat> seatrow = new ArrayList<>();
