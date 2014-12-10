@@ -8,6 +8,8 @@ package GPP_project.controller;
 import java.net.URL;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ import GPP_project.model.Reservation;
  * @author Erik
  */
 public class ReservationController implements Initializable {
+    private ArrayList reservations;
     //Initialises Containers and textfields from Reservationsside.fxml
     @FXML //fx:id="ButtonPane"
     private VBox ButtonPane;
@@ -38,29 +41,30 @@ public class ReservationController implements Initializable {
     private Text TheaterField;
     @FXML
     private Text SeatField;
+    
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        ArrayList<Reservation> reservations= new ArrayList();
+        reservations = ALLReservations;
+        Image SearchIcon = new Image(getClass().getResourceAsStream("SearchIcon.png"));
+        SearchButton.setGraphic(new ImageView(SearchIcon));
+        SearchButton.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event){
+                Search();
+            }
+        });
         
         MakeButtons(ButtonPane, NameField, TitleField, TheaterField,SeatField);
-        
     }
     
     
     public void MakeButtons(VBox ButtonPane, Text Namefield, Text TitleField, Text TheaterField, Text SeatField) {
         
-
-        ArrayList<Reservation> reservations= new ArrayList();
-        for(int n=0;n<10;n++){
-            Reservation test= new Reservation(null,"Name"+n, 1);
-            reservations.add(test);
-        }
-
         //Generates an ArrayList of buttons based on a list of Reservations
         //To be shown in the reservation overview.
         ArrayList<Button> resButtons = new ArrayList();
-        int i=0;
-        for(Reservation res: reservations){
+        for(int i=1;i<reservations.size();i++){
+            Reservation res=reservations.get(i);
             Button btn = new Button();
                 btn.setText(res.getName());
                 btn.setPrefSize(331, 65);
@@ -77,7 +81,6 @@ public class ReservationController implements Initializable {
                     }
                 });
             resButtons.add(btn);
-        i++;
         }
         //Adds the buttons from the list to the VBox in the view. 
         for(Button btn: resButtons){
@@ -85,8 +88,8 @@ public class ReservationController implements Initializable {
         }
         
     }  
-    //public void Search(Statement statement){
+    public void Search(Statement statement){
         
-    //}
+    }
     
 }
