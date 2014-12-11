@@ -28,7 +28,7 @@ import java.sql.Statement;
  */
 public class ReservationController{
     private ArrayList<Reservation> reservations;
-    
+    private ArrayList<Button> resButtons = new ArrayList();
     private ArrayList<Reservation> ALLReservations;
     private ArrayList<Customer> ALLCustomers;
     private ArrayList<Screening> ALLScreenings;
@@ -50,18 +50,11 @@ public class ReservationController{
         this.ALLReservations=ALLReservations;
         this.ALLScreenings=ALLScreenings;
         this.statement=statement;
-        reservations = ALLReservations;
-
-        //searchButton.setOnAction(evt -> 
-                    //Search(statement));
-
-        /*new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event){
-                Search(statement);
-            }
-        });
-        */ 
+        reservations = new ArrayList<Reservation>();
+        for(Reservation res: ALLReservations){
+            reservations.add(res);
+        }
+        
     } 
     
     public void FXMLLoader(VBox buttonPane, TextField searchBar, Button searchButton, 
@@ -86,7 +79,10 @@ public class ReservationController{
         
         //Generates an ArrayList of buttons based on a list of Reservations
         //To be shown in the reservation overview.
-        ArrayList<Button> resButtons = new ArrayList();
+        for(Button btn: resButtons){
+            buttonPane.getChildren().remove(btn);
+        }
+        resButtons.clear();
         for(int i=1;i<reservations.size();i++){
             Reservation res=reservations.get(i);
             Button btn = new Button();
@@ -116,7 +112,7 @@ public class ReservationController{
         Reservation JD=reservations.get(0);
         reservations.clear();
         reservations.add(JD);
-        String query = "SELECT * FROM Customers WHERE Name LIKE '"+searchBar.textProperty().toString()+"'";
+        String query = "SELECT * FROM Customers WHERE Name LIKE '"+searchBar.getCharacters().toString()+"%'";
         ResultSet rs = statement.executeQuery(query);
         ArrayList<Integer> IDs = new ArrayList<>();
         while(rs.next()){
@@ -127,10 +123,10 @@ public class ReservationController{
         for(int i: IDs){
             query = "SELECT * FROM Reservations WHERE CustomerID = '"+i+"'";
             rs = statement.executeQuery(query);
-            while(rs.next()){
+            if(rs.next()){
                 int scrnID = rs.getInt("ScreeningID");
-                Reservation res = new Reservation(ALLScreenings.get(scrnID),ALLCustomers.get(i));
-                reservations.add(res);
+                //Reservation res = new Reservation(ALLScreenings.get(scrnID),ALLCustomers.get(i));
+                reservations.add(ALLReservations.get(rs.getInt("ReservationID")));
             }
             rs.close();
         }
