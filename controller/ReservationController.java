@@ -28,10 +28,11 @@ import java.sql.Statement;
  */
 public class ReservationController{
     private ArrayList<Reservation> reservations;
+    
     private ArrayList<Reservation> ALLReservations;
     private ArrayList<Customer> ALLCustomers;
     private ArrayList<Screening> ALLScreenings;
-    private Statement SQLstate;
+    private Statement statement;
     
     //Initialises Containers and textfields from Reservationsside.fxml
     @FXML //fx:id="ButtonPane"
@@ -53,18 +54,18 @@ public class ReservationController{
         this.ALLCustomers=ALLCustomers;
         this.ALLReservations=ALLReservations;
         this.ALLScreenings=ALLScreenings;
-        SQLstate=statement;
+        this.statement=statement;
         
         reservations = ALLReservations;
         Image SearchIcon = new Image(getClass().getResourceAsStream("GPP_Prooject/resources/images/SearchIcon.png"));
         SearchButton.setGraphic(new ImageView(SearchIcon));
         //SearchButton.setOnAction(evt -> 
-                    //Search(SQLstate));
+                    //Search(statement));
 
         /*new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event){
-                Search(SQLstate);
+                Search(statement);
             }
         });
         */     
@@ -107,7 +108,7 @@ public class ReservationController{
         reservations.clear();
         reservations.add(JD);
         String query = "SELECT * FROM Customers WHERE Name RLIKE"+SearchBar.textProperty();
-        ResultSet rs = SQLstate.executeQuery(query);
+        ResultSet rs = statement.executeQuery(query);
         ArrayList<Integer> IDs = new ArrayList();
         while(rs.next()){
             int CustomerID = rs.getInt("CustomerID");
@@ -115,7 +116,7 @@ public class ReservationController{
         }
         for(int i: IDs){
             query = "SELECT * FROM Reservations WHERE CustomerID="+i;
-            rs = SQLstate.executeQuery(query);
+            rs = statement.executeQuery(query);
             while(rs.next()){
                 int scrnID = rs.getInt("ScreeningID");
                 Reservation res = new Reservation(ALLScreenings.get(scrnID),ALLCustomers.get(i));
