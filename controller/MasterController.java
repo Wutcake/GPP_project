@@ -64,6 +64,10 @@ public class MasterController {
     
     ReservationController reservationController;
     
+    // Calendar Controller
+    
+    
+    
     
     // Global variables
     private ArrayList<Customer> ALLCustomers = new ArrayList<Customer>();
@@ -111,6 +115,11 @@ public class MasterController {
     @FXML
     private void search() throws Exception{
         reservationController.search();
+    }
+    
+    @FXML
+    private void dateClicked(){
+        System.out.println("clicked");
     }
     
     public void test() throws Exception{

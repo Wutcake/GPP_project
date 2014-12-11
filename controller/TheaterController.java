@@ -4,8 +4,6 @@ import GPP_project.model.Customer;
 import GPP_project.model.Reservation;
 import GPP_project.model.Screening;
 import GPP_project.model.Seat;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
@@ -13,13 +11,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.scene.control.TextField;
-
-import java.util.ArrayList;
-import java.util.Scanner;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+
+
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 
 /**
