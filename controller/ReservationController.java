@@ -31,7 +31,7 @@ public class ReservationController implements Initializable {
     private final ArrayList<Reservation> ALLReservations;
     private final ArrayList<Customer> ALLCustomers;
     private final ArrayList<Screening> ALLScreenings;
-    private final Statement SQLstate;
+    private final Statement statement;
     
     //Initialises Containers and textfields from Reservationsside.fxml
     @FXML //fx:id="ButtonPane"
@@ -52,7 +52,7 @@ public class ReservationController implements Initializable {
         this.ALLCustomers=ALLCustomers;
         this.ALLReservations=ALLReservations;
         this.ALLScreenings=ALLScreenings;
-        SQLstate=statement;
+        this.statement=statement;
         
         reservations = ALLReservations;
         Image SearchIcon = new Image(getClass().getResourceAsStream("GPP_Prooject/resources/images/SearchIcon.png"));
@@ -60,7 +60,7 @@ public class ReservationController implements Initializable {
         SearchButton.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event){
-                Search(SQLstate);
+                Search(statement);
             }
         });
         
