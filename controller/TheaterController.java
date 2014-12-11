@@ -59,18 +59,18 @@ public class TheaterController {
     // Reserved
     Image img4 = new Image("GPP_project/resources/images/test3.png", 32, 32, true, false);
 
-    public TheaterController(Statement SQLStatement, ArrayList<ArrayList<Seat>> ALLSeatsTheaterRowCol, 
-            ArrayList<Seat> ALLSeats, ArrayList<Customer> ALLCustomers, ArrayList<Reservation> ALLReservations, Screening screening, int screeningID) throws Exception{
+    public TheaterController(Statement SQLStatement,  
+            ArrayList<Seat> ALLSeats, ArrayList<Customer> ALLCustomers, ArrayList<Reservation> ALLReservations) throws Exception{
         
         this.ALLSeats = ALLSeats;
-        this.ALLSeatsRowCol = ALLSeatsTheaterRowCol;
         this.ALLCustomers = ALLCustomers;
         this.ALLReservations = ALLReservations;
         reservationIDsRowCol = new ArrayList<ArrayList<IntegerProperty>>();
         this.SQLStatement = SQLStatement;
+        toBeReserved = new ArrayList<Seat>();
         
-        this.screeningID = screeningID;
-        screeningTheater = screening;
+        
+
     }
     
     public void FXMLLoader(GridPane theaterGrid, Text movieField, Text infoField, 
@@ -84,7 +84,13 @@ public class TheaterController {
         this.phoneNumberInput = phoneNumberInput;
     }
     
-    public void setTheater() throws Exception{
+    public void setTheater(int screeningID, Screening screening, ArrayList<ArrayList<Seat>> ALLSeatsTheaterRowCol) throws Exception{
+        this.screeningID = screeningID;
+        this.ALLSeatsRowCol = ALLSeatsTheaterRowCol;
+        screeningTheater = screening;
+        
+        setTextFields(screeningTheater);
+        
         reservationIDsRowCol.clear();
         reservationIDsRowCol.add(new ArrayList<IntegerProperty>());
         for(int row = 1; row < ALLSeatsRowCol.size(); row++){
@@ -102,12 +108,17 @@ public class TheaterController {
             
         }
     }
+    
+    public void setTheater(int screeningID, Screening screening, ArrayList<ArrayList<Seat>> ALLSeatsTheaterRowCol, int reservationID) throws Exception{
+        // Load reservation
+        setTheater(screeningID, screening, ALLSeatsRowCol);
+    }
 
     public void setTextFields(Screening screening){
         movieField.setText(screening.getMovieTitle());
-        infoField.setText(screening.getDay() + "." + screening.getMonth() + "." + screening.getYear() + "\n"
+        infoField.setText(screening.getDate() + "\n"
         + "Sal " + screening.getTheaterNumber() + "\n"
-        + screening.getHour() + " : " + screening.getMinute());
+        + screening.getTime());
         
         availableSeatsText.setText(seatCounter.toString());
         totalSeatsText.setText(seatCounter.toString());
@@ -182,6 +193,7 @@ public class TheaterController {
         }
         amountSelected = 0;
         toBeReserved.clear();
+        setTheater(screeningID, screeningTheater, ALLSeatsRowCol);
     }
     
     private void seatReserved(ImageView imgv){
@@ -224,7 +236,7 @@ public class TheaterController {
     }
     
     private int checkCustomer(String name, int phoneNumber) throws Exception{
-        String query = "SELECT * FROM Customers WHERE Name = " + name + " AND PhoneNumber = " + phoneNumber;
+        String query = "SELECT * FROM Customers WHERE Name = '" + name + "' AND PhoneNumber = '" + phoneNumber + "'";
         ResultSet rs = SQLStatement.executeQuery(query);
         
         if(rs.next()){
@@ -241,7 +253,7 @@ public class TheaterController {
     }
     
     private void createCustomer(int customerID, String name, int phoneNumber) throws Exception{
-        String update = "INSERT INTO Customers (CustomerID, Name, PhoneNumber) VALUES (" + customerID + ", '" +  name + "', " + phoneNumber + ")";
+        String update = "INSERT INTO Customers (CustomerID, Name, PhoneNumber) VALUES ('" + customerID + "', '" +  name + "', '" + phoneNumber + "')";
         Customer currentCustomer = new Customer(name, phoneNumber);
         
         ALLCustomers.add(currentCustomer);
@@ -250,9 +262,12 @@ public class TheaterController {
     }
     
     private void reserveNewSeat(int reservationID, int customerID, Seat seat) throws Exception{
-        String update = "INSERT INTO Reservations (ReservationID, ScreeningID, CustomerID, SeatID) VALUES (" + reservationID + ", " + screeningID + ", " + customerID + ", " + seat.getID() + ")";
+        String update = "INSERT INTO Reservations (ReservationID, ScreeningID, CustomerID, SeatID) VALUES ('" + reservationID + "', '" + screeningID + "', '" + customerID + "', '" + seat.getID() + "')";
         ALLReservations.get(reservationID).reserveNewSeat(seat);
         
+        SQLStatement.executeUpdate(update);
+        
+        update = "INSERT INTO ReservedSeats(SeatID, ScreeningID, CustomerID) VALUES ('" + seat.getID() + "', '" + screeningID + "', '" + customerID + "')";
         SQLStatement.executeUpdate(update);
     
     }

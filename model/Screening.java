@@ -30,6 +30,10 @@ public class Screening
         return movie.getMovieTitle();
     }
     
+    public String getDate(){
+        return date.getDate();
+    }
+    
     // Date accessor methods
     public int getDay(){
         return date.getDay();
@@ -50,6 +54,10 @@ public class Screening
     
     public int getMinute(){
         return time.getMinute();
+    }
+    
+    public String getTime(){
+        return time.getTime();
     }
     
     public int getAmountReserved(){

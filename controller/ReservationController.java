@@ -35,31 +35,24 @@ public class ReservationController{
     private Statement statement;
     
     //Initialises Containers and textfields from Reservationsside.fxml
-    @FXML //fx:id="ButtonPane"
-    private VBox ButtonPane;
-    @FXML
-    private TextField SearchBar;
-    @FXML
-    private Button SearchButton;
-    @FXML
-    private Text NameField;
-    @FXML
-    private Text TitleField;
-    @FXML
-    private Text TheaterField;
-    @FXML
-    private Text SeatField;
+    
+    private VBox buttonPane;
+    private TextField searchBar;
+    private Button searchButton;
+    private Text nameField;
+    private Text titleField;
+    private Text theaterField;
+    private Text seatField;
+    
     public ReservationController(ArrayList<Customer> ALLCustomers,ArrayList<Reservation> ALLReservations,ArrayList<Screening> ALLScreenings, 
             Statement statement) throws Exception{
         this.ALLCustomers=ALLCustomers;
         this.ALLReservations=ALLReservations;
         this.ALLScreenings=ALLScreenings;
         this.statement=statement;
-        
         reservations = ALLReservations;
-        Image SearchIcon = new Image(getClass().getResourceAsStream("GPP_Prooject/resources/images/SearchIcon.png"));
-        SearchButton.setGraphic(new ImageView(SearchIcon));
-        //SearchButton.setOnAction(evt -> 
+
+        //searchButton.setOnAction(evt -> 
                     //Search(statement));
 
         /*new EventHandler<ActionEvent>(){
@@ -68,12 +61,28 @@ public class ReservationController{
                 Search(statement);
             }
         });
-        */     
-        MakeButtons(ButtonPane, NameField, TitleField, TheaterField,SeatField);
-        
+        */ 
     } 
     
-    public void MakeButtons(VBox ButtonPane, Text Namefield, Text TitleField, Text TheaterField, Text SeatField) {
+    public void FXMLLoader(VBox buttonPane, TextField searchBar, Button searchButton, 
+            Text nameField, Text titleField, Text theaterField, Text seatField){
+        
+        this.buttonPane = buttonPane;
+        this.searchBar = searchBar;
+        this.searchButton = searchButton;
+        this.nameField = nameField;
+        this.titleField = titleField;
+        this.theaterField = theaterField;
+        this.seatField = seatField;
+        
+        Image SearchIcon = new Image("GPP_project/resources/images/Searchicon.png");
+        searchButton.setGraphic(new ImageView(SearchIcon));
+            
+        makeButtons();
+    
+    }
+    
+    public void makeButtons() {
         
         //Generates an ArrayList of buttons based on a list of Reservations
         //To be shown in the reservation overview.
@@ -89,39 +98,43 @@ public class ReservationController{
                     reservation's information onto the detailed information field.*/
                     @Override
                     public void handle(ActionEvent event) {
-                        Namefield.setText(res.getName());
-                        TitleField.setText(res.getScreening().getMovieTitle());
-                        TheaterField.setText("Theater: "+res.getScreening().getTheaterNumber());
-                        SeatField.setText(res.printSeats());
+                        nameField.setText(res.getName());
+                        titleField.setText(res.getScreening().getMovieTitle());
+                        theaterField.setText("Theater: "+res.getScreening().getTheaterNumber());
+                        seatField.setText(res.printSeats());
                     }
                 });
             resButtons.add(btn);
         }
         //Adds the buttons from the list to the VBox in the view. 
         for(Button btn: resButtons){
-            ButtonPane.getChildren().add(btn);
+            buttonPane.getChildren().add(btn);
         }
         
     }  
-    public void Search() throws Exception{
+    public void search() throws Exception{
         Reservation JD=reservations.get(0);
         reservations.clear();
         reservations.add(JD);
-        String query = "SELECT * FROM Customers WHERE Name RLIKE"+SearchBar.textProperty();
+        String query = "SELECT * FROM Customers WHERE Name LIKE '"+searchBar.textProperty().toString()+"'";
         ResultSet rs = statement.executeQuery(query);
-        ArrayList<Integer> IDs = new ArrayList();
+        ArrayList<Integer> IDs = new ArrayList<>();
         while(rs.next()){
             int CustomerID = rs.getInt("CustomerID");
             IDs.add(CustomerID);
         }
+        rs.close();
         for(int i: IDs){
-            query = "SELECT * FROM Reservations WHERE CustomerID="+i;
+            query = "SELECT * FROM Reservations WHERE CustomerID = '"+i+"'";
             rs = statement.executeQuery(query);
             while(rs.next()){
                 int scrnID = rs.getInt("ScreeningID");
                 Reservation res = new Reservation(ALLScreenings.get(scrnID),ALLCustomers.get(i));
+                reservations.add(res);
             }
+            rs.close();
         }
+        makeButtons();
     }
     
 }

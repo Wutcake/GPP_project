@@ -9,8 +9,10 @@ import java.sql.Statement;
 
 import java.util.ArrayList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class MasterController {
@@ -38,6 +40,31 @@ public class MasterController {
     
     TheaterController theaterController;
     
+    //Reservations Controller
+    @FXML //fx:id="buttonPane"
+    private VBox buttonPane;
+    
+    @FXML
+    private TextField searchBar;
+    
+    @FXML
+    private Button searchButton;
+    
+    @FXML
+    private Text nameField;
+    
+    @FXML
+    private Text titleField;
+    
+    @FXML
+    private Text theaterField;
+    
+    @FXML
+    private Text seatField;
+    
+    ReservationController reservationController;
+    
+    
     // Global variables
     private ArrayList<Customer> ALLCustomers = new ArrayList<Customer>();
     private ArrayList<Movie> ALLMovies = new ArrayList<Movie>();
@@ -63,11 +90,13 @@ public class MasterController {
     {
         
         arrayListInitialization();
-        theaterController = new TheaterController(statement, ALLSeatsTheaterRowCol.get(1), 
-            ALLSeats,  ALLCustomers,  ALLReservations, ALLScreenings.get(1), 1);
+        theaterController = new TheaterController(statement,  
+            ALLSeats,  ALLCustomers,  ALLReservations);
         
-        theaterController.FXMLLoader(theaterGrid, movieField, infoField, availableSeatsText, totalSeatsText, nameInput, phoneNumberInput);
        
+        reservationController = new ReservationController(ALLCustomers, ALLReservations, ALLScreenings, 
+             statement);
+        
     }
     
     @FXML
@@ -75,13 +104,22 @@ public class MasterController {
     }
     
     @FXML
-    public void reserveButton() throws Exception{
+    private void reserveButton() throws Exception{
         theaterController.reserveButton();
     }
     
+    @FXML
+    private void search() throws Exception{
+        reservationController.search();
+    }
+    
     public void test() throws Exception{
-        theaterController.setTheater();
         
+        theaterController.FXMLLoader(theaterGrid, movieField, infoField, availableSeatsText, totalSeatsText, nameInput, phoneNumberInput);
+        
+        reservationController.FXMLLoader(buttonPane, searchBar, searchButton, nameField, titleField, theaterField, seatField);
+        
+        theaterController.setTheater(1, ALLScreenings.get(1), ALLSeatsTheaterRowCol.get(1));
     }
     
     public void print() {
@@ -117,8 +155,6 @@ public class MasterController {
     }
 
     private void arrayListInitialization() {
-        
-
         try {
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
             connection = DriverManager.getConnection(DB_URL, USER, PASS);

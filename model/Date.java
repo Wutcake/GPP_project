@@ -33,6 +33,11 @@ public class Date
     public int getYear(){
         return year;
     }
+    
+    public String getDate(){
+        date = day + "-" + month + "-" + year;
+        return date;
+    }
 
     public String toString(){
         return "date '" + date + "'";
