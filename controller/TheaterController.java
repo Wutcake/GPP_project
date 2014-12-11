@@ -26,25 +26,14 @@ import javafx.beans.value.ObservableValue;
  * Created by pseudo on 05-11-2014.
  */
 public class TheaterController {
-    @FXML
-    private GridPane theater;
-    
-    @FXML
+
+    // FXML elements
+    private GridPane theaterGrid;
     private Text movieField;
-    
-    @FXML
     private Text infoField;
-    
-    @FXML
     private Text availableSeatsText;
-    
-    @FXML
     private Text totalSeatsText;
-    
-    @FXML
     private TextField nameInput;
-     
-    @FXML
     private TextField phoneNumberInput;
     
     // Needs better method of counting available / total seats...
@@ -77,12 +66,22 @@ public class TheaterController {
         this.ALLSeatsRowCol = ALLSeatsTheaterRowCol;
         this.ALLCustomers = ALLCustomers;
         this.ALLReservations = ALLReservations;
+        reservationIDsRowCol = new ArrayList<ArrayList<IntegerProperty>>();
         this.SQLStatement = SQLStatement;
         
         this.screeningID = screeningID;
         screeningTheater = screening;
-        setTheater();
-        
+    }
+    
+    public void FXMLLoader(GridPane theaterGrid, Text movieField, Text infoField, 
+            Text availableSeatsText, Text totalSeatsText, TextField nameInput, TextField phoneNumberInput){
+        this.theaterGrid = theaterGrid;
+        this.movieField = movieField;
+        this.infoField = infoField;
+        this.availableSeatsText = availableSeatsText;
+        this.totalSeatsText = totalSeatsText;
+        this.nameInput = nameInput;
+        this.phoneNumberInput = phoneNumberInput;
     }
     
     public void setTheater() throws Exception{
@@ -125,10 +124,10 @@ public class TheaterController {
                     seatSelected(imgv, seat)
                 );
                 imgv.setImage(img1);
-                theater.add(imgv , col, row);
+                theaterGrid.add(imgv , col, row);
             }else{
                 imgv.setImage(img4);
-                theater.add(imgv, col, row);
+                theaterGrid.add(imgv, col, row);
             }
             reservationID.addListener(new ChangeListener(){
                 @Override public void changed(ObservableValue o, Object oldVal, Object newVal){
@@ -137,15 +136,14 @@ public class TheaterController {
             
         } else {
             imgv.setImage(img2);
-            theater.add(imgv, col, row);
+            theaterGrid.add(imgv, col, row);
         }
     }
     
     @FXML
-    private void reserveButton() throws Exception{
+    public void reserveButton() throws Exception{
         System.out.println("DU HAR TRYKKET RESERVÉR!");
         Scanner scanner;
-        
         
         String name = nameInput.getCharacters().toString();
         int phoneNumber = 0;
@@ -213,11 +211,14 @@ public class TheaterController {
     }
     
     private int getReservationID(int seatID) throws Exception{
-        String query = "SELECT * FROM ReservedSeats WHERE SeatID = " + seatID + "AND ScreeningID = " + screeningID;
+        String query = "SELECT * FROM ReservedSeats WHERE SeatID = " + seatID + " AND ScreeningID = " + screeningID;
         ResultSet rs = SQLStatement.executeQuery(query);
+        int customerID;
+        if(rs.next()){
+            customerID = rs.getInt("CustomerID");
+        }else
+            customerID = 0;
         
-        rs.next();
-        int customerID = rs.getInt("CustomerID");
         rs.close();
         return customerID;
     }

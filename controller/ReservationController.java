@@ -26,12 +26,12 @@ import java.sql.Statement;
  *
  * @author Erik
  */
-public class ReservationController implements Initializable {
+public class ReservationController{
     private ArrayList<Reservation> reservations;
-    private final ArrayList<Reservation> ALLReservations;
-    private final ArrayList<Customer> ALLCustomers;
-    private final ArrayList<Screening> ALLScreenings;
-    private final Statement SQLstate;
+    private ArrayList<Reservation> ALLReservations;
+    private ArrayList<Customer> ALLCustomers;
+    private ArrayList<Screening> ALLScreenings;
+    private Statement SQLstate;
     
     //Initialises Containers and textfields from Reservationsside.fxml
     @FXML //fx:id="ButtonPane"
@@ -48,7 +48,8 @@ public class ReservationController implements Initializable {
     private Text TheaterField;
     @FXML
     private Text SeatField;
-    public ReservationController(ArrayList<Customer> ALLCustomers,ArrayList<Reservation> ALLReservations,ArrayList<Screening> ALLScreenings, Statement statement){
+    public ReservationController(ArrayList<Customer> ALLCustomers,ArrayList<Reservation> ALLReservations,ArrayList<Screening> ALLScreenings, 
+            Statement statement) throws Exception{
         this.ALLCustomers=ALLCustomers;
         this.ALLReservations=ALLReservations;
         this.ALLScreenings=ALLScreenings;
@@ -57,13 +58,16 @@ public class ReservationController implements Initializable {
         reservations = ALLReservations;
         Image SearchIcon = new Image(getClass().getResourceAsStream("GPP_Prooject/resources/images/SearchIcon.png"));
         SearchButton.setGraphic(new ImageView(SearchIcon));
-        SearchButton.setOnAction(new EventHandler<ActionEvent>(){
+        //SearchButton.setOnAction(evt -> 
+                    //Search(SQLstate));
+
+        /*new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event){
                 Search(SQLstate);
             }
         });
-        
+        */     
         MakeButtons(ButtonPane, NameField, TitleField, TheaterField,SeatField);
         
     } 
@@ -98,12 +102,12 @@ public class ReservationController implements Initializable {
         }
         
     }  
-    public void Search(Statement statement) throws Exception{
+    public void Search() throws Exception{
         Reservation JD=reservations.get(0);
         reservations.clear();
         reservations.add(JD);
         String query = "SELECT * FROM Customers WHERE Name RLIKE"+SearchBar.textProperty();
-        ResultSet rs = statement.executeQuery(query);
+        ResultSet rs = SQLstate.executeQuery(query);
         ArrayList<Integer> IDs = new ArrayList();
         while(rs.next()){
             int CustomerID = rs.getInt("CustomerID");
@@ -111,7 +115,7 @@ public class ReservationController implements Initializable {
         }
         for(int i: IDs){
             query = "SELECT * FROM Reservations WHERE CustomerID="+i;
-            rs = statement.executeQuery(query);
+            rs = SQLstate.executeQuery(query);
             while(rs.next()){
                 int scrnID = rs.getInt("ScreeningID");
                 Reservation res = new Reservation(ALLScreenings.get(scrnID),ALLCustomers.get(i));

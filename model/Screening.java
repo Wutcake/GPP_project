@@ -11,7 +11,7 @@ public class Screening
     private int theaterID;
     private Time time;
     private Date date;
-    private int seatsReserved = 0;
+    private int amountSeatsReserved = 0;
     
     public Screening(Movie movie, int theaterID, String time, String date){
         this.movie = movie;
@@ -51,9 +51,18 @@ public class Screening
     public int getMinute(){
         return time.getMinute();
     }
+    
+    public int getAmountReserved(){
+        return amountSeatsReserved;
+    }
+    
+    public void setAmountReserved(int amountSeatsReserved){
+        this.amountSeatsReserved = amountSeatsReserved;
+        return;
+    }
 
     public String toString()
     {
-        return "seatsReserved int(" + seatsReserved + "); " + movie + "; theaterID int(" + theaterID + "); " + time + "; " + date;
+        return "seatsReserved int(" + amountSeatsReserved + "); " + movie + "; theaterID int(" + theaterID + "); " + time + "; " + date;
     }
 }

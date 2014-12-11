@@ -8,15 +8,45 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import java.util.ArrayList;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 
 public class MasterController {
-
+    // TheaterController
+    @FXML
+    private GridPane theaterGrid;
+    
+    @FXML
+    private Text movieField;
+    
+    @FXML
+    private Text infoField;
+    
+    @FXML
+    private Text availableSeatsText;
+    
+    @FXML
+    private Text totalSeatsText;
+    
+    @FXML
+    private TextField nameInput;
+     
+    @FXML
+    private TextField phoneNumberInput;
+    
+    TheaterController theaterController;
+    
+    // Global variables
     private ArrayList<Customer> ALLCustomers = new ArrayList<Customer>();
     private ArrayList<Movie> ALLMovies = new ArrayList<Movie>();
     private ArrayList<Reservation> ALLReservations = new ArrayList<Reservation>();
     private ArrayList<Seat> ALLSeats = new ArrayList<Seat>();
     private ArrayList<ArrayList<ArrayList<Seat>>> ALLSeatsTheaterRowCol = new ArrayList<ArrayList<ArrayList<Seat>>>();
     private ArrayList<Screening> ALLScreenings = new ArrayList<Screening>();
+    
+    
 
     // MySQL Stuff
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -26,11 +56,34 @@ public class MasterController {
     static final String USER = "Henriette_Hess";
     static final String PASS = "Henning_Torsten";
 
-    public MasterController()
+    private Connection connection = null;
+    private Statement statement = null;
+    
+    public MasterController() throws Exception
     {
+        
         arrayListInitialization();
+        theaterController = new TheaterController(statement, ALLSeatsTheaterRowCol.get(1), 
+            ALLSeats,  ALLCustomers,  ALLReservations, ALLScreenings.get(1), 1);
+        
+        theaterController.FXMLLoader(theaterGrid, movieField, infoField, availableSeatsText, totalSeatsText, nameInput, phoneNumberInput);
+       
     }
-
+    
+    @FXML
+    private void initialize() throws Exception{
+    }
+    
+    @FXML
+    public void reserveButton() throws Exception{
+        theaterController.reserveButton();
+    }
+    
+    public void test() throws Exception{
+        theaterController.setTheater();
+        
+    }
+    
     public void print() {
         for(int cnt = 0; cnt < ALLCustomers.size(); cnt++) {
             System.out.println(ALLCustomers.get(cnt).toString());
@@ -64,8 +117,7 @@ public class MasterController {
     }
 
     private void arrayListInitialization() {
-        Connection connection = null;
-        Statement statement = null;
+        
 
         try {
             DriverManager.registerDriver(new com.mysql.jdbc.Driver());
@@ -131,10 +183,10 @@ public class MasterController {
             String date = rs.getString("Date");
             String time = rs.getString("Time");
             int theaterID = rs.getInt("Theater");
-            int seatsReserved = rs.getInt("SeatsReserved");
+            int amountSeatsReserved = rs.getInt("SeatsReserved");
 
             ALLScreenings.add(new Screening(ALLMovies.get(movieID), theaterID, time, date));
-            ALLScreenings.get(screeningID).setSeatsReserved(seatsReserved);
+            ALLScreenings.get(screeningID).setAmountReserved(amountSeatsReserved);
         }
         rs.close();
     }
