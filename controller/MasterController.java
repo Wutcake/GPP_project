@@ -303,7 +303,7 @@ public class MasterController {
             if(newReservationID != reservationID) {
                 int screeningID = rs.getInt("ScreeningID");
 
-                ALLReservations.add(new Reservation(ALLScreenings.get(screeningID), ALLCustomers.get(customerID)));
+                ALLReservations.add(new Reservation(ALLScreenings.get(screeningID), ALLCustomers.get(customerID), newReservationID));
             }
             reservationID = newReservationID;
 

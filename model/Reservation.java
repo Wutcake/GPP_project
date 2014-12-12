@@ -7,22 +7,27 @@ package GPP_project.model;
  */
 public class Reservation
 {
-    Screening screening;
-    Customer customer;
-    ReservedSeats seats = new ReservedSeats();
-
-    public Reservation(Screening screening, String name, int phoneNumber){
-        this.screening = screening;
-        this.customer = new Customer(name, phoneNumber);
-    }
+    private Screening screening;
+    private Customer customer;
+    private ReservedSeats seats = new ReservedSeats();
+	private int ReservationID;
 
     public Reservation(Screening screening, Customer customer){
         this.screening = screening;
         this.customer = customer;
+		reservationID = 0;
     }
+	
+	public Reservation(Screening screening, Customer customer, int reservationID){
+        this.screening = screening;
+        this.customer = customer;
+		this.reservationID = reservationID;
+    }
+	
     public Screening getScreening(){
         return screening;
     }
+	
     public int getPhoneNumber(){
         return customer.getPhoneNumber();
     }
@@ -30,6 +35,14 @@ public class Reservation
     public String getName(){
         return customer.getName();
     }
+	
+	public int getReservationID(){
+		return reservationID;
+	}
+	
+	public void nullifyReservationID(){
+		reservationID = 0;
+	}
     
     // reservation methods
     public void reserveNewSeat(Seat seat){
