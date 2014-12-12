@@ -281,11 +281,11 @@ public class TheaterController {
 
     private void unreserveSeat(int reservationID, int customerID, Seat seat) throws Exception{
         String update = "UPDATE Reservations SET ReservationID = '0' WHERE ReservationID = '" + reservationID + "'";
-        ALLReservations.get(reservationID).nullifyReservationID();
+        //ALLReservations.get(reservationID).nullifyReservationID();
 
-        SQLStatement.executeUpdate(update);
+        //SQLStatement.executeUpdate(update);
 
         update = "UPDATE ReservedSeats SET SeatID = '0' WHERE ScreeningID = '" + screeningID + "' AND CustomerID = '" + customerID + "'";
-        SQLStatement.executeUpdate(update);
+        //SQLStatement.executeUpdate(update);
     }
 }
