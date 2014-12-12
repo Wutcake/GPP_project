@@ -102,7 +102,7 @@ public class ReservationController{
                     @Override
                     public void handle(ActionEvent event) {
                         nameField.setText(res.getName());
-                        phoneField.setText("Tlf. :"+res.getPhoneNumber());
+                        phoneField.setText("Tlf.: "+res.getPhoneNumber());
                         titleField.setText(res.getScreening().getMovieTitle());
                         theaterField.setText("Theater: "+res.getScreening().getTheaterNumber());
                         seatField.setText(res.printSeats());
