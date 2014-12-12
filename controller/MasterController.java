@@ -69,6 +69,9 @@ public class MasterController {
     
     @FXML
     private Text seatField;
+
+    @FXML
+    private Button theaterChangeButton;
     
     ReservationController reservationController;
     
@@ -90,6 +93,7 @@ public class MasterController {
     private ArrayList<Seat> ALLSeats = new ArrayList<Seat>();
     private ArrayList<ArrayList<ArrayList<Seat>>> ALLSeatsTheaterRowCol = new ArrayList<ArrayList<ArrayList<Seat>>>();
     private ArrayList<Screening> ALLScreenings = new ArrayList<Screening>();
+    private ArrayList<ArrayList<<Screening>> ALLScreeningsDay = new ArrayList<ArrayList<Screening>>();
     
     
 
@@ -146,6 +150,11 @@ public class MasterController {
     private void deleteReservation() throws Exception{
         reservationController.deleteReservation();
         reservationListInitialization();        
+    }
+
+    @FXML
+    private void showInTheaterView() throws Exception{
+
     }
     
     public void test() throws Exception{
@@ -251,7 +260,7 @@ public class MasterController {
 
         ResultSet rs = statement.executeQuery(query);
 
-        ALLScreenings.add(new Screening(ALLMovies.get(0), 0, "00:00", "01-01-00",0));
+        ALLScreenings.add(new Screening(ALLMovies.get(0), 0, "00:00", "01-01-00", 0));
 
         while(rs.next()){
             int screeningID = rs.getInt("ScreeningID");
