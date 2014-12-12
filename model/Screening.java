@@ -12,12 +12,14 @@ public class Screening
     private Time time;
     private Date date;
     private int amountSeatsReserved = 0;
+    private int screeningID;
     
-    public Screening(Movie movie, int theaterID, String time, String date){
+    public Screening(Movie movie, int theaterID, String time, String date, int ID){
         this.movie = movie;
         this.theaterID = theaterID;
         this.time = new Time(time);
         this.date = new Date(date);
+        screeningID = ID;
     }
     
     // Theater accessor methods
@@ -72,5 +74,9 @@ public class Screening
     public String toString()
     {
         return "seatsReserved int(" + amountSeatsReserved + "); " + movie + "; theaterID int(" + theaterID + "); " + time + "; " + date;
+    }
+    
+    public int getScreeningID(){
+        return screeningID;
     }
 }

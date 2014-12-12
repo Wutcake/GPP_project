@@ -143,6 +143,7 @@ public class MasterController {
     @FXML
     private void deleteReservation() throws Exception{
         reservationController.deleteReservation();
+        reservationListInitialization();
     }
     
     public void test() throws Exception{
@@ -201,7 +202,7 @@ public class MasterController {
             movieListInitialization(statement);
             screeningListInitialization(statement);
             seatListInitialization(statement);
-            reservationListInitialization(statement);
+            reservationListInitialization();
             //seatReservationListInitialization(statement);
 
         } catch(Exception e) {
@@ -248,7 +249,7 @@ public class MasterController {
 
         ResultSet rs = statement.executeQuery(query);
 
-        ALLScreenings.add(new Screening(ALLMovies.get(0), 0, "00:00", "01-01-00"));
+        ALLScreenings.add(new Screening(ALLMovies.get(0), 0, "00:00", "01-01-00",0));
 
         while(rs.next()){
             int screeningID = rs.getInt("ScreeningID");
@@ -258,7 +259,7 @@ public class MasterController {
             int theaterID = rs.getInt("Theater");
             int amountSeatsReserved = rs.getInt("SeatsReserved");
 
-            ALLScreenings.add(new Screening(ALLMovies.get(movieID), theaterID, time, date));
+            ALLScreenings.add(new Screening(ALLMovies.get(movieID), theaterID, time, date, screeningID));
             ALLScreenings.get(screeningID).setAmountReserved(amountSeatsReserved);
         }
         rs.close();
@@ -303,7 +304,7 @@ public class MasterController {
         rs.close();
     }
 
-    private void reservationListInitialization(Statement statement) throws Exception{
+    private void reservationListInitialization() throws Exception{
         String query = "SELECT * FROM Reservations";
 
         ResultSet rs = statement.executeQuery(query);

@@ -141,9 +141,19 @@ public class ReservationController{
     }
     
     public void deleteReservation()throws Exception{
-        //String update = "DELETE FROM Reservations WHERE ReservationID = "+clickedReservation.getReservationID();
-        //statement.executeUpdate(update);
-        clickedReservation.nullifyReservationID();
+        int reservationID = clickedReservation.getReservationID();
+        int customerID = clickedReservation.getCustomerID();
+        int screeningID = clickedReservation.getScreeningID();
+        ArrayList<Seat> reservedSeats = clickedReservation.getSeats();
+        String update = "UPDATE Reservations SET ReservationID = ReservationID - 1 WHERE ReservationID > '" + reservationID + "'";
+        statement.executeUpdate(update);
+        update = "DELETE FROM Reservations WHERE ReservationID = '" + reservationID + "' AND CustomerID = '" + customerID + "' AND ScreeningID = '" + screeningID + "'";
+        statement.executeUpdate(update);
+        for(int i=0;i<reservedSeats.size();i++){
+            int seatID = reservedSeats.get(i).getID();
+            update = "DELETE FROM ReservedSeats WHERE SeatID = '"+ seatID + "' AND CustomerID = '" + customerID + "' AND ScreeningID = '" + screeningID + "'";
+            statement.executeUpdate(update);
+        }
         makeButtons();
     }
     

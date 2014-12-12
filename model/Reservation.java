@@ -29,6 +29,9 @@ public class Reservation
     public Screening getScreening(){
         return screening;
     }
+    public int getScreeningID(){
+        return screening.getScreeningID();
+    }
 	
     public int getPhoneNumber(){
         return customer.getPhoneNumber();
