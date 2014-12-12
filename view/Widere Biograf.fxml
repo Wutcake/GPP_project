@@ -273,7 +273,6 @@
                                     <Font size="30.0" />
                                  </font>
                               </Text>
-                              <Button mnemonicParsing="false" onAction="#dateClicked" prefHeight="72.0" prefWidth="103.0" text="24" GridPane.rowIndex="1" />
                               <Button mnemonicParsing="false" onAction="#dateClicked" prefHeight="72.0" prefWidth="103.0" text="25" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Button mnemonicParsing="false" onAction="#dateClicked" prefHeight="72.0" prefWidth="103.0" text="26" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                               <Button mnemonicParsing="false" onAction="#dateClicked" prefHeight="72.0" prefWidth="103.0" text="27" GridPane.columnIndex="3" GridPane.rowIndex="1" />
@@ -315,6 +314,7 @@
                               <Button mnemonicParsing="false" onAction="#dateClicked" prefHeight="72.0" prefWidth="103.0" text="2" GridPane.columnIndex="4" GridPane.rowIndex="6" />
                               <Button mnemonicParsing="false" onAction="#dateClicked" prefHeight="72.0" prefWidth="103.0" text="3" GridPane.columnIndex="5" GridPane.rowIndex="6" />
                               <Button mnemonicParsing="false" onAction="#dateClicked" prefHeight="72.0" prefWidth="103.0" text="4" GridPane.columnIndex="6" GridPane.rowIndex="6" />
+                              <Label fx:id="testLabel" alignment="CENTER" prefHeight="73.0" prefWidth="101.0" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
                      </left>

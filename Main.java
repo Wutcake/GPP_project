@@ -32,7 +32,6 @@ public class Main extends Application {
             
             MasterController masterController = loader.getController();
             masterController.test();
-            masterController.print();
             
             stage.setTitle("Widere Biograf");
             stage.setScene(new Scene(view, 1024, 576));

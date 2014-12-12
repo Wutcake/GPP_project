@@ -10,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -68,7 +69,10 @@ public class MasterController {
     ReservationController reservationController;
     
     // Calendar Controller
+    @FXML
+    private GridPane calenderGrid;
     
+    CalenderController calenderController;
     
     
     
@@ -104,6 +108,10 @@ public class MasterController {
         reservationController = new ReservationController(ALLCustomers, ALLReservations, ALLScreenings, 
              statement);
         
+        calenderController = new CalenderController(statement,  
+            ALLSeats,  ALLCustomers,  ALLReservations);
+        
+        
     }
     
     @FXML
@@ -132,6 +140,8 @@ public class MasterController {
         reservationController.FXMLLoader(buttonPane, searchBar, searchButton, nameField, titleField, theaterField, seatField);
         
         theaterController.setTheater(1, ALLScreenings.get(1), ALLSeatsTheaterRowCol.get(1));
+        
+        calenderController.FXMLLoader(calenderGrid);
     }
     
     public void print() {
