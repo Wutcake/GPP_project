@@ -33,8 +33,9 @@ public class ReservationController{
     private ArrayList<Customer> ALLCustomers;
     private ArrayList<Screening> ALLScreenings;
     private Statement statement;
+    private Reservation clickedReservation;
     
-    //Initialises Containers and textfields from Reservationsside.fxml
+    //Initialises Containers and textfields from Widere Biograf.fxml
     
     private VBox buttonPane;
     private TextField searchBar;
@@ -85,6 +86,8 @@ public class ReservationController{
         resButtons.clear();
         for(int i=1;i<reservations.size();i++){
             Reservation res=reservations.get(i);
+            if(res.getReservationID()==0)
+                continue;
             Button btn = new Button();
                 btn.setText(res.getName());
                 btn.setPrefSize(331, 65);
@@ -94,10 +97,11 @@ public class ReservationController{
                     reservation's information onto the detailed information field.*/
                     @Override
                     public void handle(ActionEvent event) {
-                        nameField.setText(res.getName());
+                        nameField.setText(res.getScreening().getDate()+"    "+res.getName());
                         titleField.setText(res.getScreening().getMovieTitle());
                         theaterField.setText("Theater: "+res.getScreening().getTheaterNumber());
                         seatField.setText(res.printSeats());
+                        clickedReservation= res;
                     }
                 });
             resButtons.add(btn);
@@ -124,13 +128,16 @@ public class ReservationController{
             query = "SELECT * FROM Reservations WHERE CustomerID = '"+i+"'";
             rs = statement.executeQuery(query);
             if(rs.next()){
-                int scrnID = rs.getInt("ScreeningID");
-                //Reservation res = new Reservation(ALLScreenings.get(scrnID),ALLCustomers.get(i));
                 reservations.add(ALLReservations.get(rs.getInt("ReservationID")));
             }
             rs.close();
         }
         makeButtons();
+    }
+    public void deleteReservation()throws Exception{
+        String update = "DELETE FROM Reservations WHERE ReservationID = "+clickedReservation.getReservationID();
+        statement.executeUpdate(update);
+        reservations.remove(clickedReservation);
     }
     
 }

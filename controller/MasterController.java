@@ -41,7 +41,7 @@ public class MasterController {
     TheaterController theaterController;
     
     //Reservations Controller
-    @FXML //fx:id="buttonPane"
+    @FXML 
     private VBox buttonPane;
     
     @FXML
@@ -49,6 +49,9 @@ public class MasterController {
     
     @FXML
     private Button searchButton;
+    
+    @FXML
+    private Button deleteButton;
     
     @FXML
     private Text nameField;

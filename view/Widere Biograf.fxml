@@ -480,6 +480,7 @@
                                     <Text fx:id="theaterField" layoutX="14.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Theater" />
                                     <TextField fx:id="searchBar" layoutX="31.0" layoutY="14.0" prefHeight="25.0" prefWidth="429.0" promptText="Name Search" />
                                     <Button fx:id="searchButton" layoutX="460.0" layoutY="14.0" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="40.0" />
+                                    <Button fx:id="deleteButton" layoutX="568.0" layoutY="134.0" mnemonicParsing="false" onAction="#deleteReservation" text="Slet Reservation" />
                                  </children>
                               </AnchorPane>
                            </items>
