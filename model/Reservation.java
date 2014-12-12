@@ -1,4 +1,6 @@
 package GPP_project.model;
+
+import java.util.ArrayList;
 /**
  * Write a description of class Reservation here.
  * 
@@ -21,11 +23,14 @@ public class Reservation
 	public Reservation(Screening screening, Customer customer, int reservationID){
         this.screening = screening;
         this.customer = customer;
-	this.reservationID = reservationID;
+        this.reservationID = reservationID;
     }
 	
     public Screening getScreening(){
         return screening;
+    }
+    public int getScreeningID(){
+        return screening.getScreeningID();
     }
 	
     public int getPhoneNumber(){
@@ -39,6 +44,10 @@ public class Reservation
 	public int getReservationID(){
             return reservationID;
 	}
+
+    public int getCustomerID() {
+        return customer.getCustomerID();
+    }
 	
 	public void nullifyReservationID(){
             reservationID = 0;
@@ -49,8 +58,8 @@ public class Reservation
         seats.reserveNewSeat(seat);
     }
    
-    public ReservedSeats getSeats(){
-        return seats;
+    public ArrayList<Seat> getSeats(){
+        return seats.getSeats();
     }
 
     public String toString(){

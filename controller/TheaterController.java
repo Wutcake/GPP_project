@@ -17,6 +17,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.sql.ResultSet;
@@ -40,17 +41,18 @@ public class TheaterController {
     // Needs better method of counting available / total seats...
     private Integer seatCounter = 0, amountSelected = 0;
     private int screeningID;
-    
+    private int reservationID = 0;
     
     private Screening screeningTheater;
     private ArrayList<Seat> toBeReserved;
+    private ArrayList<Seat> toBeSelected;
     private ArrayList<Customer> ALLCustomers;
     private ArrayList<Reservation> ALLReservations;
     private ArrayList<ArrayList<Seat>> ALLSeatsRowCol;
     private ArrayList<Seat> ALLSeats;
     private ArrayList<ArrayList<IntegerProperty>> reservationIDsRowCol;
     private Statement SQLStatement;
-    
+
     // Not reserved, selected or null.
     Image img1 = new Image("GPP_project/resources/images/test.png", 32, 32, true, false);
     // Null
@@ -69,9 +71,6 @@ public class TheaterController {
         reservationIDsRowCol = new ArrayList<ArrayList<IntegerProperty>>();
         this.SQLStatement = SQLStatement;
         toBeReserved = new ArrayList<Seat>();
-        
-        
-
     }
     
     public void FXMLLoader(GridPane theaterGrid, Text movieField, Text infoField, 
@@ -105,14 +104,15 @@ public class TheaterController {
                 }else{
                     initializeGrid(getSeat(row, col), col, row);
                 }   
-            }     
-            
+            }
         }
     }
     
     public void setTheater(int screeningID, Screening screening, ArrayList<ArrayList<Seat>> ALLSeatsTheaterRowCol, int reservationID) throws Exception{
         // Load reservation
-        setTheater(screeningID, screening, ALLSeatsRowCol);
+        this.reservationID = reservationID;
+        toBeSelected = ALLReservations.get(reservationID).getSeats();
+        setTheater(screeningID, screening, ALLSeatsTheaterRowCol);
     }
 
     public void setTextFields(Screening screening){
@@ -125,7 +125,7 @@ public class TheaterController {
         totalSeatsText.setText(seatCounter.toString());
     }
     
-    private void initializeGrid(Seat seat, int col, int row) {
+    private void initializeGrid(Seat seat, int col, int row) throws Exception {
         ImageView imgv = new ImageView();
         IntegerProperty reservationID = reservationIDsRowCol.get(row).get(col);
         
@@ -150,6 +150,12 @@ public class TheaterController {
             imgv.setImage(img2);
             theaterGrid.add(imgv, col, row);
         }
+
+       /* if(toBeSelected.contains(seat)) {
+            unreserveSeat(this.reservationID, ALLReservations.get(this.reservationID).getCustomerID(), seat);
+            seatSelected(imgv, seat);
+            toBeSelected.remove(seat);
+        }*/
     }
     
     @FXML
@@ -255,7 +261,7 @@ public class TheaterController {
     
     private void createCustomer(int customerID, String name, int phoneNumber) throws Exception{
         String update = "INSERT INTO Customers (CustomerID, Name, PhoneNumber) VALUES ('" + customerID + "', '" +  name + "', '" + phoneNumber + "')";
-        Customer currentCustomer = new Customer(name, phoneNumber);
+        Customer currentCustomer = new Customer(name, phoneNumber, customerID);
         
         ALLCustomers.add(currentCustomer);
 
@@ -272,5 +278,14 @@ public class TheaterController {
         SQLStatement.executeUpdate(update);
     
     }
-    
+
+    private void unreserveSeat(int reservationID, int customerID, Seat seat) throws Exception{
+        String update = "UPDATE Reservations SET ReservationID = '0' WHERE ReservationID = '" + reservationID + "'";
+        //ALLReservations.get(reservationID).nullifyReservationID();
+
+        //SQLStatement.executeUpdate(update);
+
+        update = "UPDATE ReservedSeats SET SeatID = '0' WHERE ScreeningID = '" + screeningID + "' AND CustomerID = '" + customerID + "'";
+        //SQLStatement.executeUpdate(update);
+    }
 }

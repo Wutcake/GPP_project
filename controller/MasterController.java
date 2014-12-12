@@ -59,6 +59,9 @@ public class MasterController {
     private Text nameField;
     
     @FXML
+    private Text phoneField;
+    
+    @FXML
     private Text titleField;
     
     @FXML
@@ -140,13 +143,14 @@ public class MasterController {
     @FXML
     private void deleteReservation() throws Exception{
         reservationController.deleteReservation();
+        reservationListInitialization();        
     }
     
     public void test() throws Exception{
         
         theaterController.FXMLLoader(theaterGrid, movieField, infoField, availableSeatsText, totalSeatsText, nameInput, phoneNumberInput);
         
-        reservationController.FXMLLoader(buttonPane, searchBar, searchButton, nameField, titleField, theaterField, seatField);
+        reservationController.FXMLLoader(buttonPane, searchBar, searchButton, deleteButton, nameField, titleField, theaterField, seatField, phoneField);
         
         theaterController.setTheater(1, ALLScreenings.get(1), ALLSeatsTheaterRowCol.get(1));
         
@@ -198,7 +202,7 @@ public class MasterController {
             movieListInitialization(statement);
             screeningListInitialization(statement);
             seatListInitialization(statement);
-            reservationListInitialization(statement);
+            reservationListInitialization();
             //seatReservationListInitialization(statement);
 
         } catch(Exception e) {
@@ -211,13 +215,14 @@ public class MasterController {
 
         ResultSet rs = statement.executeQuery(query);
 
-        ALLCustomers.add(new Customer("John Doe", 0));
+        ALLCustomers.add(new Customer("John Doe", 0, 0));
 
         while(rs.next()){
             String name = rs.getString("Name");
             int phoneNumber = rs.getInt("PhoneNumber");
+            int customerID = rs.getInt("CustomerID");
 
-            ALLCustomers.add(new Customer(name, phoneNumber));
+            ALLCustomers.add(new Customer(name, phoneNumber, customerID));
         }
         rs.close();
     }
@@ -244,7 +249,9 @@ public class MasterController {
 
         ResultSet rs = statement.executeQuery(query);
 
-        ALLScreenings.add(new Screening(ALLMovies.get(0), 0, "00:00", "01-01-00", 0));
+
+        ALLScreenings.add(new Screening(ALLMovies.get(0), 0, "00:00", "01-01-00", 0, 0));
+
 
         while(rs.next()){
             int screeningID = rs.getInt("ScreeningID");
@@ -254,7 +261,8 @@ public class MasterController {
             int theaterID = rs.getInt("Theater");
             int amountSeatsReserved = rs.getInt("SeatsReserved");
 
-            ALLScreenings.add(new Screening(ALLMovies.get(movieID), theaterID, time, date, 0));
+
+            ALLScreenings.add(new Screening(ALLMovies.get(movieID), theaterID, time, date, screeningID,0));
             ALLScreenings.get(screeningID).setAmountReserved(amountSeatsReserved);
         }
         rs.close();
@@ -299,7 +307,8 @@ public class MasterController {
         rs.close();
     }
 
-    private void reservationListInitialization(Statement statement) throws Exception{
+    private void reservationListInitialization() throws Exception{
+        ALLReservations.clear();
         String query = "SELECT * FROM Reservations";
 
         ResultSet rs = statement.executeQuery(query);
