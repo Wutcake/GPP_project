@@ -12,13 +12,16 @@ public class Screening
     private Time time;
     private Date date;
     private int amountSeatsReserved = 0;
+    private int amountSeats = 0;
     private int screeningID;
     
-    public Screening(Movie movie, int theaterID, String time, String date, int ID){
+   
+    public Screening(Movie movie, int theaterID, String time, String date, int amountSeats, int ID){
         this.movie = movie;
         this.theaterID = theaterID;
         this.time = new Time(time);
         this.date = new Date(date);
+        this.amountSeats = amountSeats;
         screeningID = ID;
     }
     
@@ -60,6 +63,10 @@ public class Screening
     
     public String getTime(){
         return time.getTime();
+    }
+    
+    public int getAmountSeats(){
+        return amountSeats;
     }
     
     public int getAmountReserved(){

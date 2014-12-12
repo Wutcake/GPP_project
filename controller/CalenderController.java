@@ -7,15 +7,19 @@ package GPP_project.controller;
 
 import GPP_project.model.Customer;
 import GPP_project.model.Reservation;
+import GPP_project.model.Screening;
 import GPP_project.model.Seat;
 
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Text;
 
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
-import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -26,40 +30,49 @@ public class CalenderController {
     private ArrayList<Customer> ALLCustomers;
     private ArrayList<Reservation> ALLReservations;
     private ArrayList<ArrayList<Seat>> ALLSeatsRowCol;
+    private ArrayList<ArrayList<Screening>> ALLScreenings;
     private ArrayList<Seat> ALLSeats;
     private Statement SQLStatement;
     
     private Label testLabel;
     private Text testText;
     private GridPane calenderGrid;
+    private ScrollPane calenderInfoBox;
     
     
     
-    public CalenderController(Statement SQLStatement,  
-            ArrayList<Seat> ALLSeats, ArrayList<Customer> ALLCustomers, ArrayList<Reservation> ALLReservations) throws Exception{
+    public CalenderController(Statement SQLStatement, ArrayList<Seat> ALLSeats, 
+            ArrayList<Customer> ALLCustomers, ArrayList<Reservation> ALLReservations,
+            ArrayList<ArrayList<Screening>> ALLScreenings) throws Exception{
         
         this.ALLSeats = ALLSeats;
         this.ALLCustomers = ALLCustomers;
         this.ALLReservations = ALLReservations;
+        this.ALLScreenings = ALLScreenings;
         this.SQLStatement = SQLStatement;
     }
     
-    public void FXMLLoader(GridPane calenderGrid){
+    public void FXMLLoader(GridPane calenderGrid, ScrollPane calenderInfoBox){
         this.calenderGrid = calenderGrid;
+        this.calenderInfoBox = calenderInfoBox;
     }
     
     public void initialiseGrid(){
         Integer dayCounter = 24, dayLimit = 30;
         
-        for(int weekDay = 0; weekDay < 7; weekDay++){
-            for(int week = 1; week < 7; week++){
+        for(int week = 1; week < 7; week++){
+            for(int weekDay = 0; weekDay < 7; weekDay++){
                 if(dayCounter <= dayLimit){
                     Label label = new Label(dayCounter.toString());
                     Text text = new Text(dayCounter.toString());
                     label.setLabelFor(text);
                     label.setOnMouseClicked(evt -> dayClicked(getText(label)));
                     
-                    calenderGrid.add(label, week, weekDay);
+                    label.setAlignment(Pos.CENTER);
+                    label.setPrefHeight(71);
+                    label.setPrefWidth(103);
+                    
+                    calenderGrid.add(label, weekDay, week);
                 }else{
                     dayLimit++;
                     dayCounter = 1;
@@ -68,12 +81,14 @@ public class CalenderController {
                     label.setLabelFor(text);
                     label.setOnMouseClicked(evt -> dayClicked(getText(label)));
                     
-                    calenderGrid.add(label, week, weekDay);
+                    label.setAlignment(Pos.CENTER);
+                    label.setPrefHeight(71);
+                    label.setPrefWidth(103);
+                    
+                    calenderGrid.add(label, weekDay, week);
                 }
-                
                 dayCounter++;
             }
-            
         }
     }
     
@@ -92,9 +107,30 @@ public class CalenderController {
         scanner = new Scanner(toParse);
         if(scanner.hasNext()){
             Integer dayInt = scanner.nextInt();
+            System.out.println(dayInt);
             
-            
+            getDayInfo(dayInt);
         }
     }
     
+    private void getDayInfo(int day){
+        ArrayList<Screening> screeningsThisDay;
+        screeningsThisDay = ALLScreenings.get(day);
+        
+
+        
+        for(int counter = 0; counter < screeningsThisDay.size(); counter++){
+            
+            VBox dayInfo = new VBox();
+            dayInfo.setSpacing(6);
+            dayInfo.setAlignment(Pos.TOP_CENTER);
+            
+            Screening thisScreening = screeningsThisDay.get(counter);
+            
+            Text movieText = new Text(thisScreening.getMovieTitle() + " Sal " + thisScreening.getTheaterNumber());
+            dayInfo.getChildren().add(movieText);
+            
+            Text seatText = new Text("Reserverede sæder: " + thisScreening.getAmountReserved() + "/" + thisScreening.getAmountSeats());
+        }
+    }
 }

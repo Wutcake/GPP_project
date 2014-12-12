@@ -120,7 +120,7 @@ public class MasterController {
              statement);
         
         calenderController = new CalenderController(statement,  
-            ALLSeats,  ALLCustomers,  ALLReservations);
+            ALLSeats,  ALLCustomers,  ALLReservations, ALLScreenings);
         
         
     }
@@ -165,7 +165,7 @@ public class MasterController {
         
         theaterController.setTheater(1, ALLScreenings.get(1), ALLSeatsTheaterRowCol.get(1));
         
-        calenderController.FXMLLoader(calendarGrid);
+        calenderController.FXMLLoader(calendarGrid, calenderInfoBox);
         
         calenderController.initialiseGrid();
     }
@@ -260,7 +260,13 @@ public class MasterController {
 
         ResultSet rs = statement.executeQuery(query);
 
+<<<<<<< HEAD
         ALLScreenings.add(new Screening(ALLMovies.get(0), 0, "00:00", "01-01-00", 0));
+=======
+
+        ALLScreenings.add(new Screening(ALLMovies.get(0), 0, "00:00", "01-01-00", 0, 0));
+
+>>>>>>> origin/master
 
         while(rs.next()){
             int screeningID = rs.getInt("ScreeningID");
@@ -270,7 +276,8 @@ public class MasterController {
             int theaterID = rs.getInt("Theater");
             int amountSeatsReserved = rs.getInt("SeatsReserved");
 
-            ALLScreenings.add(new Screening(ALLMovies.get(movieID), theaterID, time, date, screeningID));
+
+            ALLScreenings.add(new Screening(ALLMovies.get(movieID), theaterID, time, date, screeningID,0));
             ALLScreenings.get(screeningID).setAmountReserved(amountSeatsReserved);
         }
         rs.close();
