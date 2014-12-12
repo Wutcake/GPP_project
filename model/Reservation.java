@@ -41,6 +41,10 @@ public class Reservation
 	public int getReservationID(){
             return reservationID;
 	}
+
+    public int getCustomerID() {
+        return customer.getCustomerID();
+    }
 	
 	public void nullifyReservationID(){
             reservationID = 0;

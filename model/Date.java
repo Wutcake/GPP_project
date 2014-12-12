@@ -35,7 +35,6 @@ public class Date
     }
     
     public String getDate(){
-        date = day + "-" + month + "-" + year;
         return date;
     }
 

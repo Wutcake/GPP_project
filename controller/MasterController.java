@@ -214,13 +214,14 @@ public class MasterController {
 
         ResultSet rs = statement.executeQuery(query);
 
-        ALLCustomers.add(new Customer("John Doe", 0));
+        ALLCustomers.add(new Customer("John Doe", 0, 0));
 
         while(rs.next()){
             String name = rs.getString("Name");
             int phoneNumber = rs.getInt("PhoneNumber");
+            int customerID = rs.getInt("CustomerID");
 
-            ALLCustomers.add(new Customer(name, phoneNumber));
+            ALLCustomers.add(new Customer(name, phoneNumber, customerID));
         }
         rs.close();
     }
