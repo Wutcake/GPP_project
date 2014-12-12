@@ -111,7 +111,7 @@ public class TheaterController {
     public void setTheater(int screeningID, Screening screening, ArrayList<ArrayList<Seat>> ALLSeatsTheaterRowCol, int reservationID) throws Exception{
         // Load reservation
         toBeSelected = ALLReservations.get(reservationID).getSeats();
-        setTheater(screeningID, screening, ALLSeatsRowCol);
+        setTheater(screeningID, screening, ALLSeatsTheaterRowCol);
     }
 
     public void setTextFields(Screening screening){
