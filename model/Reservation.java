@@ -10,18 +10,18 @@ public class Reservation
     private Screening screening;
     private Customer customer;
     private ReservedSeats seats = new ReservedSeats();
-	private int ReservationID;
+    private int reservationID;
 
     public Reservation(Screening screening, Customer customer){
         this.screening = screening;
         this.customer = customer;
-		reservationID = 0;
+        reservationID = 0;
     }
 	
 	public Reservation(Screening screening, Customer customer, int reservationID){
         this.screening = screening;
         this.customer = customer;
-		this.reservationID = reservationID;
+	this.reservationID = reservationID;
     }
 	
     public Screening getScreening(){
@@ -37,11 +37,11 @@ public class Reservation
     }
 	
 	public int getReservationID(){
-		return reservationID;
+            return reservationID;
 	}
 	
 	public void nullifyReservationID(){
-		reservationID = 0;
+            reservationID = 0;
 	}
     
     // reservation methods
