@@ -151,11 +151,11 @@ public class TheaterController {
             theaterGrid.add(imgv, col, row);
         }
 
-        if(toBeSelected.contains(seat)) {
+       /* if(toBeSelected.contains(seat)) {
             unreserveSeat(this.reservationID, ALLReservations.get(this.reservationID).getCustomerID(), seat);
             seatSelected(imgv, seat);
             toBeSelected.remove(seat);
-        }
+        }*/
     }
     
     @FXML

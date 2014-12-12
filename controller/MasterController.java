@@ -143,7 +143,7 @@ public class MasterController {
     @FXML
     private void deleteReservation() throws Exception{
         reservationController.deleteReservation();
-        reservationListInitialization();
+        reservationListInitialization();        
     }
     
     public void test() throws Exception{
@@ -152,7 +152,7 @@ public class MasterController {
         
         reservationController.FXMLLoader(buttonPane, searchBar, searchButton, deleteButton, nameField, titleField, theaterField, seatField, phoneField);
         
-        theaterController.setTheater(1, ALLScreenings.get(1), ALLSeatsTheaterRowCol.get(1), 1);
+        theaterController.setTheater(1, ALLScreenings.get(1), ALLSeatsTheaterRowCol.get(1));
         
         calenderController.FXMLLoader(calendarGrid);
         
@@ -305,6 +305,7 @@ public class MasterController {
     }
 
     private void reservationListInitialization() throws Exception{
+        ALLReservations.clear();
         String query = "SELECT * FROM Reservations";
 
         ResultSet rs = statement.executeQuery(query);
