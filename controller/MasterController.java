@@ -137,6 +137,11 @@ public class MasterController {
         System.out.println("clicked");
     }
     
+    @FXML
+    private void deleteReservation() throws Exception{
+        reservationController.deleteReservation();
+    }
+    
     public void test() throws Exception{
         
         theaterController.FXMLLoader(theaterGrid, movieField, infoField, availableSeatsText, totalSeatsText, nameInput, phoneNumberInput);
