@@ -17,6 +17,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.sql.ResultSet;
@@ -44,13 +45,14 @@ public class TheaterController {
     
     private Screening screeningTheater;
     private ArrayList<Seat> toBeReserved;
+    private ArrayList<Seat> toBeSelected;
     private ArrayList<Customer> ALLCustomers;
     private ArrayList<Reservation> ALLReservations;
     private ArrayList<ArrayList<Seat>> ALLSeatsRowCol;
     private ArrayList<Seat> ALLSeats;
     private ArrayList<ArrayList<IntegerProperty>> reservationIDsRowCol;
     private Statement SQLStatement;
-    
+
     // Not reserved, selected or null.
     Image img1 = new Image("GPP_project/resources/images/test.png", 32, 32, true, false);
     // Null
@@ -69,9 +71,6 @@ public class TheaterController {
         reservationIDsRowCol = new ArrayList<ArrayList<IntegerProperty>>();
         this.SQLStatement = SQLStatement;
         toBeReserved = new ArrayList<Seat>();
-        
-        
-
     }
     
     public void FXMLLoader(GridPane theaterGrid, Text movieField, Text infoField, 
@@ -105,13 +104,13 @@ public class TheaterController {
                 }else{
                     initializeGrid(getSeat(row, col), col, row);
                 }   
-            }     
-            
+            }
         }
     }
     
     public void setTheater(int screeningID, Screening screening, ArrayList<ArrayList<Seat>> ALLSeatsTheaterRowCol, int reservationID) throws Exception{
         // Load reservation
+        toBeSelected = ALLReservations.get(reservationID).getSeats();
         setTheater(screeningID, screening, ALLSeatsRowCol);
     }
 
@@ -149,6 +148,11 @@ public class TheaterController {
         } else {
             imgv.setImage(img2);
             theaterGrid.add(imgv, col, row);
+        }
+
+        if(toBeSelected.contains(seat)) {
+            seatSelected(imgv, seat);
+            toBeSelected.remove(seat);
         }
     }
     

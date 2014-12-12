@@ -14,8 +14,11 @@ public class ReservedSeats
     public ReservedSeats(){
     }
 
+    public ArrayList<Seat> getSeats(){
+        return seats;
+    }
+
     public void reserveNewSeat(Seat seat){
-        // Send reserved seats to database. somewhere in here or in seat
         seats.add(seat);
     }
 

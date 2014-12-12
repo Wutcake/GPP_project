@@ -151,7 +151,7 @@ public class MasterController {
         
         reservationController.FXMLLoader(buttonPane, searchBar, searchButton, deleteButton, nameField, titleField, theaterField, seatField, phoneField);
         
-        theaterController.setTheater(1, ALLScreenings.get(1), ALLSeatsTheaterRowCol.get(1));
+        theaterController.setTheater(1, ALLScreenings.get(1), ALLSeatsTheaterRowCol.get(1), 1);
         
         calenderController.FXMLLoader(calendarGrid);
         
