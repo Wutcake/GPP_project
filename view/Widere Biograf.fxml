@@ -233,13 +233,14 @@
                               </AnchorPane>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                  <children>
-                                    <Text fx:id="nameField" layoutX="14.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" wrappingWidth="151.13671875" />
-                                    <Text fx:id="titleField" layoutX="14.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Movie title" wrappingWidth="217.13671875" />
-                                    <Text fx:id="seatField" layoutX="14.0" layoutY="200.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Seats" wrappingWidth="183.13671875" />
-                                    <Text fx:id="theaterField" layoutX="14.0" layoutY="168.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Theater" />
+                                    <Text fx:id="nameField" layoutX="14.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Navn" wrappingWidth="151.13671875" />
+                                    <Text fx:id="titleField" layoutX="14.0" layoutY="151.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Film titel" wrappingWidth="217.13671875" />
+                                    <Text fx:id="seatField" layoutX="14.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sæder" wrappingWidth="183.13671875" />
+                                    <Text fx:id="theaterField" layoutX="14.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sal" />
                                     <TextField fx:id="searchBar" layoutX="31.0" layoutY="14.0" prefHeight="25.0" prefWidth="429.0" promptText="Name Search" />
                                     <Button fx:id="searchButton" layoutX="460.0" layoutY="14.0" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="40.0" />
                                     <Button fx:id="deleteButton" layoutX="568.0" layoutY="134.0" mnemonicParsing="false" onAction="#deleteReservation" text="Slet Reservation" />
+                                    <Text fx:id="phoneField" layoutX="14.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tlf." />
                                  </children>
                               </AnchorPane>
                            </items>

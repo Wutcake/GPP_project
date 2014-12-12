@@ -40,10 +40,12 @@ public class ReservationController{
     private VBox buttonPane;
     private TextField searchBar;
     private Button searchButton;
+    private Button deleteButton;
     private Text nameField;
     private Text titleField;
     private Text theaterField;
     private Text seatField;
+    private Text phoneField;
     
     public ReservationController(ArrayList<Customer> ALLCustomers,ArrayList<Reservation> ALLReservations,ArrayList<Screening> ALLScreenings, 
             Statement statement) throws Exception{
@@ -58,16 +60,18 @@ public class ReservationController{
         
     } 
     
-    public void FXMLLoader(VBox buttonPane, TextField searchBar, Button searchButton, 
-            Text nameField, Text titleField, Text theaterField, Text seatField){
+    public void FXMLLoader(VBox buttonPane, TextField searchBar, Button searchButton, Button deleteButton, 
+            Text nameField, Text titleField, Text theaterField, Text seatField, Text phoneField){
         
         this.buttonPane = buttonPane;
         this.searchBar = searchBar;
         this.searchButton = searchButton;
+        this.deleteButton = deleteButton;
         this.nameField = nameField;
         this.titleField = titleField;
         this.theaterField = theaterField;
         this.seatField = seatField;
+        this.phoneField = phoneField;
         
         Image SearchIcon = new Image("GPP_project/resources/images/Searchicon.png");
         searchButton.setGraphic(new ImageView(SearchIcon));
@@ -89,7 +93,7 @@ public class ReservationController{
             if(res.getReservationID()==0)
                 continue;
             Button btn = new Button();
-                btn.setText(res.getName());
+                btn.setText(res.getScreening().getDate()+"    "+res.getName());
                 btn.setPrefSize(331, 65);
                 btn.setOnAction(new EventHandler<ActionEvent>() {
             
@@ -97,7 +101,8 @@ public class ReservationController{
                     reservation's information onto the detailed information field.*/
                     @Override
                     public void handle(ActionEvent event) {
-                        nameField.setText(res.getScreening().getDate()+"    "+res.getName());
+                        nameField.setText(res.getName());
+                        phoneField.setText("Tlf. :"+res.getPhoneNumber());
                         titleField.setText(res.getScreening().getMovieTitle());
                         theaterField.setText("Theater: "+res.getScreening().getTheaterNumber());
                         seatField.setText(res.printSeats());
@@ -139,6 +144,7 @@ public class ReservationController{
         //String update = "DELETE FROM Reservations WHERE ReservationID = "+clickedReservation.getReservationID();
         //statement.executeUpdate(update);
         clickedReservation.nullifyReservationID();
+        makeButtons();
     }
     
 }

@@ -59,6 +59,9 @@ public class MasterController {
     private Text nameField;
     
     @FXML
+    private Text phoneField;
+    
+    @FXML
     private Text titleField;
     
     @FXML
@@ -146,7 +149,7 @@ public class MasterController {
         
         theaterController.FXMLLoader(theaterGrid, movieField, infoField, availableSeatsText, totalSeatsText, nameInput, phoneNumberInput);
         
-        reservationController.FXMLLoader(buttonPane, searchBar, searchButton, nameField, titleField, theaterField, seatField);
+        reservationController.FXMLLoader(buttonPane, searchBar, searchButton, deleteButton, nameField, titleField, theaterField, seatField, phoneField);
         
         theaterController.setTheater(1, ALLScreenings.get(1), ALLSeatsTheaterRowCol.get(1));
         
