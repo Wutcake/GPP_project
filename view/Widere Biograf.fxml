@@ -14,7 +14,7 @@
    <center>
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab text="Kalender">
+          <Tab text="Kalendar">
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <left>
@@ -78,7 +78,7 @@
                         </GridPane>
                      </left>
                      <right>
-                        <ScrollPane fx:id="calenderInfobox" prefHeight="504.0" prefWidth="324.0" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
+                        <ScrollPane fx:id="calendarInfobox" prefHeight="504.0" prefWidth="324.0" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
                            <content>
                               <VBox prefHeight="200.0" prefWidth="100.0" />
                            </content>

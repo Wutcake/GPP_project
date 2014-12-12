@@ -80,11 +80,9 @@ public class MasterController {
     private GridPane calendarGrid;
     
     @FXML
-    private ScrollPane calenderInfoBox;
+    private ScrollPane calendarInfoBox;
     
-    CalenderController calenderController;
-    
-    
+    CalendarController calendarController;
     
     // Global variables
     private ArrayList<Customer> ALLCustomers = new ArrayList<Customer>();
@@ -94,8 +92,6 @@ public class MasterController {
     private ArrayList<ArrayList<ArrayList<Seat>>> ALLSeatsTheaterRowCol = new ArrayList<ArrayList<ArrayList<Seat>>>();
     private ArrayList<Screening> ALLScreenings = new ArrayList<Screening>();
     private ArrayList<ArrayList<<Screening>> ALLScreeningsDay = new ArrayList<ArrayList<Screening>>();
-    
-    
 
     // MySQL Stuff
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -119,7 +115,7 @@ public class MasterController {
         reservationController = new ReservationController(ALLCustomers, ALLReservations, ALLScreenings, 
              statement);
         
-        calenderController = new CalenderController(statement,  
+        calendarController = new CalendarController(statement,
             ALLSeats,  ALLCustomers,  ALLReservations, ALLScreenings);
         
         
@@ -165,9 +161,9 @@ public class MasterController {
         
         theaterController.setTheater(1, ALLScreenings.get(1), ALLSeatsTheaterRowCol.get(1));
         
-        calenderController.FXMLLoader(calendarGrid, calenderInfoBox);
+        calendarController.FXMLLoader(calendarGrid, calendarInfoBox);
         
-        calenderController.initialiseGrid();
+        calendarController.initialiseGrid();
     }
     
     public void print() {
@@ -211,8 +207,8 @@ public class MasterController {
             // Håndtering af individuelle tables
             customerListInitialization();
             movieListInitialization();
-            screeningListInitialization();
             seatListInitialization();
+            screeningListInitialization();
             reservationListInitialization();
             //seatReservationListInitialization(statement);
 
@@ -255,34 +251,6 @@ public class MasterController {
         rs.close();
     }
 
-    private void screeningListInitialization() throws Exception{
-        String query = "SELECT * FROM Screenings";
-
-        ResultSet rs = statement.executeQuery(query);
-
-<<<<<<< HEAD
-        ALLScreenings.add(new Screening(ALLMovies.get(0), 0, "00:00", "01-01-00", 0));
-=======
-
-        ALLScreenings.add(new Screening(ALLMovies.get(0), 0, "00:00", "01-01-00", 0, 0));
-
->>>>>>> origin/master
-
-        while(rs.next()){
-            int screeningID = rs.getInt("ScreeningID");
-            int movieID = rs.getInt("MovieID");
-            String date = rs.getString("Date");
-            String time = rs.getString("Time");
-            int theaterID = rs.getInt("Theater");
-            int amountSeatsReserved = rs.getInt("SeatsReserved");
-
-
-            ALLScreenings.add(new Screening(ALLMovies.get(movieID), theaterID, time, date, screeningID,0));
-            ALLScreenings.get(screeningID).setAmountReserved(amountSeatsReserved);
-        }
-        rs.close();
-    }
-
     private void seatListInitialization() throws Exception{
         String query = "SELECT * FROM Seats";
 
@@ -318,6 +286,43 @@ public class MasterController {
             }
 
             ALLSeatsTheaterRowCol.get(theater).get(row).add(ALLSeats.get(seatID));
+        }
+        rs.close();
+    }
+
+    private void screeningListInitialization() throws Exception{
+        String query = "SELECT * FROM Screenings";
+
+        ResultSet rs = statement.executeQuery(query);
+
+        ALLScreenings.add(new Screening(ALLMovies.get(0), 0, "00:00", "00-12-00", 0, 0));
+        ALLScreeningsDay.add(new ArrayList<Screening>);
+        ALLScreeningsDay.get(0).add(ALLScreenings.get(0));
+
+        String date = "";
+        int dayCounter = 0;
+        while(rs.next()){
+            int screeningID = rs.getInt("ScreeningID");
+            int movieID = rs.getInt("MovieID");
+            String newDate = rs.getString("Date");
+            String time = rs.getString("Time");
+            int theaterID = rs.getInt("Theater");
+            int amountSeatsReserved = rs.getInt("SeatsReserved");
+
+            ALLScreenings.add(new Screening(ALLMovies.get(movieID), theaterID, time, newDate, ALLSeatsTheaterRowCol.get(theaterID).size(), screeningID));
+            ALLScreenings.get(screeningID).setAmountReserved(amountSeatsReserved);
+
+            if(newDate != date){
+                ALLScreeningsDay.add(new ArrayList<Screening>);
+                dayCounter++;
+            }
+            if(newDate == "23-12-14"){
+                for(int cnt = 0; cnt < 10; cnt++){
+                    ALLScreeningsDay.add(new ArrayList<Screening>);
+                    dayCounter++;
+                }
+            }
+            ALLScreenings.get(dayCounter).add(ALLScreenings.get(screeningID));
         }
         rs.close();
     }

@@ -25,7 +25,7 @@ import javafx.scene.layout.VBox;
  *
  * @author Alexander
  */
-public class CalenderController {
+public class CalendarController {
     
     private ArrayList<Customer> ALLCustomers;
     private ArrayList<Reservation> ALLReservations;
@@ -36,12 +36,12 @@ public class CalenderController {
     
     private Label testLabel;
     private Text testText;
-    private GridPane calenderGrid;
-    private ScrollPane calenderInfoBox;
+    private GridPane calendarGrid;
+    private ScrollPane calendarInfoBox;
     
     
     
-    public CalenderController(Statement SQLStatement, ArrayList<Seat> ALLSeats, 
+    public CalendarController(Statement SQLStatement, ArrayList<Seat> ALLSeats,
             ArrayList<Customer> ALLCustomers, ArrayList<Reservation> ALLReservations,
             ArrayList<ArrayList<Screening>> ALLScreenings) throws Exception{
         
@@ -52,9 +52,9 @@ public class CalenderController {
         this.SQLStatement = SQLStatement;
     }
     
-    public void FXMLLoader(GridPane calenderGrid, ScrollPane calenderInfoBox){
-        this.calenderGrid = calenderGrid;
-        this.calenderInfoBox = calenderInfoBox;
+    public void FXMLLoader(GridPane calendarGrid, ScrollPane calendarInfoBox){
+        this.calendarGrid = calendarGrid;
+        this.calendarInfoBox = calendarInfoBox;
     }
     
     public void initialiseGrid(){
@@ -72,7 +72,7 @@ public class CalenderController {
                     label.setPrefHeight(71);
                     label.setPrefWidth(103);
                     
-                    calenderGrid.add(label, weekDay, week);
+                    calendarGrid.add(label, weekDay, week);
                 }else{
                     dayLimit++;
                     dayCounter = 1;
@@ -85,7 +85,7 @@ public class CalenderController {
                     label.setPrefHeight(71);
                     label.setPrefWidth(103);
                     
-                    calenderGrid.add(label, weekDay, week);
+                    calendarGrid.add(label, weekDay, week);
                 }
                 dayCounter++;
             }
