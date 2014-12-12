@@ -85,6 +85,8 @@ public class TheaterController {
     }
     
     public void setTheater(int screeningID, Screening screening, ArrayList<ArrayList<Seat>> ALLSeatsTheaterRowCol) throws Exception{
+        theaterGrid.getChildren().clear();
+        
         this.screeningID = screeningID;
         this.ALLSeatsRowCol = ALLSeatsTheaterRowCol;
         screeningTheater = screening;
@@ -240,7 +242,7 @@ public class TheaterController {
         
         if(rs.next()){
             int customerID = rs.getInt("CustomerID");
-            if(rs.getInt(customerID) > 0){
+            if(customerID > 0){
                 rs.close();
                 return customerID;
             }
@@ -253,6 +255,9 @@ public class TheaterController {
     
     private void createCustomer(int customerID, String name, int phoneNumber) throws Exception{
         String update = "INSERT INTO Customers (CustomerID, Name, PhoneNumber) VALUES ('" + customerID + "', '" +  name + "', '" + phoneNumber + "')";
+        
+        ALLCustomers.add(new Customer(name, phoneNumber, customerID));
+        
         SQLStatement.executeUpdate(update);
     }
     

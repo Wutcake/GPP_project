@@ -10,8 +10,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -80,7 +78,10 @@ public class MasterController {
     private GridPane calendarGrid;
     
     @FXML
-    private ScrollPane calendarInfoBox;
+    private VBox calendarInfoBox;
+    
+    @FXML
+    private Button goToTheaterButton;
     
     CalendarController calendarController;
     
@@ -91,7 +92,7 @@ public class MasterController {
     private ArrayList<Seat> ALLSeats = new ArrayList<Seat>();
     private ArrayList<ArrayList<ArrayList<Seat>>> ALLSeatsTheaterRowCol = new ArrayList<ArrayList<ArrayList<Seat>>>();
     private ArrayList<Screening> ALLScreenings = new ArrayList<Screening>();
-    private ArrayList<ArrayList<<Screening>> ALLScreeningsDay = new ArrayList<ArrayList<Screening>>();
+    private ArrayList<ArrayList<Screening>> ALLScreeningsDay = new ArrayList<ArrayList<Screening>>();
 
     // MySQL Stuff
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
@@ -116,7 +117,7 @@ public class MasterController {
              statement);
         
         calendarController = new CalendarController(statement,
-            ALLSeats,  ALLCustomers,  ALLReservations, ALLScreenings);
+            ALLSeats,  ALLCustomers,  ALLReservations, ALLScreeningsDay);
         
         
     }
@@ -151,6 +152,14 @@ public class MasterController {
     @FXML
     private void showInTheaterView() throws Exception{
 
+    }
+    
+    @FXML
+    private void goToTheater() throws Exception{
+        int screeningID = calendarController.getSelectedScreening();
+        int theaterID = ALLScreenings.get(screeningID).getTheaterNumber();
+        
+        theaterController.setTheater(screeningID, ALLScreenings.get(screeningID), ALLSeatsTheaterRowCol.get(theaterID));
     }
     
     public void test() throws Exception{
@@ -296,11 +305,12 @@ public class MasterController {
         ResultSet rs = statement.executeQuery(query);
 
         ALLScreenings.add(new Screening(ALLMovies.get(0), 0, "00:00", "00-12-00", 0, 0));
-        ALLScreeningsDay.add(new ArrayList<Screening>);
+        ALLScreeningsDay.add(new ArrayList<Screening>());
+        ALLScreeningsDay.add(new ArrayList<Screening>());
         ALLScreeningsDay.get(0).add(ALLScreenings.get(0));
 
         String date = "";
-        int dayCounter = 0;
+        int dayCounter = 1;
         while(rs.next()){
             int screeningID = rs.getInt("ScreeningID");
             int movieID = rs.getInt("MovieID");
@@ -312,17 +322,18 @@ public class MasterController {
             ALLScreenings.add(new Screening(ALLMovies.get(movieID), theaterID, time, newDate, ALLSeatsTheaterRowCol.get(theaterID).size(), screeningID));
             ALLScreenings.get(screeningID).setAmountReserved(amountSeatsReserved);
 
-            if(newDate != date){
-                ALLScreeningsDay.add(new ArrayList<Screening>);
+            if(!newDate.equals(date)){
+                ALLScreeningsDay.add(new ArrayList<Screening>());
                 dayCounter++;
             }
-            if(newDate == "23-12-14"){
+            if(newDate.equals("23-12-14")){
                 for(int cnt = 0; cnt < 10; cnt++){
-                    ALLScreeningsDay.add(new ArrayList<Screening>);
+                    ALLScreeningsDay.add(new ArrayList<Screening>());
                     dayCounter++;
                 }
             }
-            ALLScreenings.get(dayCounter).add(ALLScreenings.get(screeningID));
+            ALLScreeningsDay.get(dayCounter).add(ALLScreenings.get(screeningID));
+            date = newDate;
         }
         rs.close();
     }

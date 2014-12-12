@@ -12,13 +12,14 @@ import GPP_project.model.Seat;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 
 /**
@@ -34,12 +35,13 @@ public class CalendarController {
     private ArrayList<Seat> ALLSeats;
     private Statement SQLStatement;
     
+    private ArrayList<Button> currentButtons = new ArrayList<>();
+    
     private Label testLabel;
     private Text testText;
     private GridPane calendarGrid;
-    private ScrollPane calendarInfoBox;
-    
-    
+    private VBox calendarInfoBox;
+    private int selectedScreeningID = 0;
     
     public CalendarController(Statement SQLStatement, ArrayList<Seat> ALLSeats,
             ArrayList<Customer> ALLCustomers, ArrayList<Reservation> ALLReservations,
@@ -52,42 +54,113 @@ public class CalendarController {
         this.SQLStatement = SQLStatement;
     }
     
-    public void FXMLLoader(GridPane calendarGrid, ScrollPane calendarInfoBox){
+    public void FXMLLoader(GridPane calendarGrid, VBox calendarInfoBox){
         this.calendarGrid = calendarGrid;
         this.calendarInfoBox = calendarInfoBox;
     }
     
     public void initialiseGrid(){
         Integer dayCounter = 24, dayLimit = 30;
+        boolean flag = true;
         
         for(int week = 1; week < 7; week++){
             for(int weekDay = 0; weekDay < 7; weekDay++){
-                if(dayCounter <= dayLimit){
-                    Label label = new Label(dayCounter.toString());
-                    Text text = new Text(dayCounter.toString());
-                    label.setLabelFor(text);
-                    label.setOnMouseClicked(evt -> dayClicked(getText(label)));
-                    
-                    label.setAlignment(Pos.CENTER);
-                    label.setPrefHeight(71);
-                    label.setPrefWidth(103);
-                    
-                    calendarGrid.add(label, weekDay, week);
+                if(flag){
+                    if(dayCounter <= dayLimit){
+                        Label label = new Label(dayCounter.toString());
+                        Text text = new Text(dayCounter.toString());
+                        label.setLabelFor(text);
+
+                        label.setAlignment(Pos.CENTER);
+                        label.setPrefHeight(71);
+                        label.setPrefWidth(103);
+
+                        calendarGrid.add(label, weekDay, week);
+                        dayCounter++;
+                    }else if(dayCounter > dayLimit){
+                        dayLimit++;
+                        flag = !flag;
+                        dayCounter = 1;
+                        weekDay--;
+                    }else{
+                        
+                        Label label = new Label(dayCounter.toString());
+                        Text text = new Text(dayCounter.toString());
+                        label.setLabelFor(text);
+
+                        label.setAlignment(Pos.CENTER);
+                        label.setPrefHeight(71);
+                        label.setPrefWidth(103);
+
+                        calendarGrid.add(label, weekDay, week);
+                        
+                        dayCounter++;
+                    }
                 }else{
-                    dayLimit++;
-                    dayCounter = 1;
-                    Label label = new Label(dayCounter.toString());
-                    Text text = new Text(dayCounter.toString());
-                    label.setLabelFor(text);
-                    label.setOnMouseClicked(evt -> dayClicked(getText(label)));
-                    
-                    label.setAlignment(Pos.CENTER);
-                    label.setPrefHeight(71);
-                    label.setPrefWidth(103);
-                    
-                    calendarGrid.add(label, weekDay, week);
+                    if(dayCounter < 24){
+                        if(dayCounter <= dayLimit){
+                            Label label = new Label(dayCounter.toString());
+                            Text text = new Text(dayCounter.toString());
+                            label.setLabelFor(text);
+                            label.setOnMouseClicked(evt -> dayClicked(getText(label)));
+
+                            label.setAlignment(Pos.CENTER);
+                            label.setPrefHeight(71);
+                            label.setPrefWidth(103);
+
+                            calendarGrid.add(label, weekDay, week);
+                            dayCounter++;
+                        }else if(dayCounter > dayLimit){
+                            dayLimit++;
+                            flag = !flag;
+                            dayCounter = 1;
+                            weekDay--;
+                        }else{
+                            Label label = new Label(dayCounter.toString());
+                            Text text = new Text(dayCounter.toString());
+                            label.setLabelFor(text);
+                            label.setOnMouseClicked(evt -> dayClicked(getText(label)));
+
+                            label.setAlignment(Pos.CENTER);
+                            label.setPrefHeight(71);
+                            label.setPrefWidth(103);
+
+                            calendarGrid.add(label, weekDay, week);
+                            dayCounter++;
+                        }
+                    }else{
+                            if(dayCounter <= dayLimit){
+                            Label label = new Label(dayCounter.toString());
+                            Text text = new Text(dayCounter.toString());
+                            label.setLabelFor(text);
+
+                            label.setAlignment(Pos.CENTER);
+                            label.setPrefHeight(71);
+                            label.setPrefWidth(103);
+
+                            calendarGrid.add(label, weekDay, week);
+                            dayCounter++;
+                        }else if(dayCounter > dayLimit){
+                            dayLimit++;
+                            flag = !flag;
+                            dayCounter = 1;
+                            weekDay--;
+                        }else{
+
+                            Label label = new Label(dayCounter.toString());
+                            Text text = new Text(dayCounter.toString());
+                            label.setLabelFor(text);
+
+                            label.setAlignment(Pos.CENTER);
+                            label.setPrefHeight(71);
+                            label.setPrefWidth(103);
+
+                            calendarGrid.add(label, weekDay, week);
+
+                            dayCounter++;
+                        }
+                    }
                 }
-                dayCounter++;
             }
         }
     }
@@ -114,23 +187,44 @@ public class CalendarController {
     }
     
     private void getDayInfo(int day){
+        
+        for(Button btn: currentButtons){
+            calendarInfoBox.getChildren().remove(btn);
+        }
+        currentButtons.clear();
+        
         ArrayList<Screening> screeningsThisDay;
         screeningsThisDay = ALLScreenings.get(day);
         
-
-        
         for(int counter = 0; counter < screeningsThisDay.size(); counter++){
+            Button thisButton = new Button();
+            thisButton.setPrefWidth(303);
             
-            VBox dayInfo = new VBox();
-            dayInfo.setSpacing(6);
-            dayInfo.setAlignment(Pos.TOP_CENTER);
+            thisButton.setAlignment(Pos.TOP_LEFT);
+            thisButton.setPadding(new Insets(5,5,5,5));
             
             Screening thisScreening = screeningsThisDay.get(counter);
             
-            Text movieText = new Text(thisScreening.getMovieTitle() + " Sal " + thisScreening.getTheaterNumber());
-            dayInfo.getChildren().add(movieText);
+            String movieText = thisScreening.getMovieTitle() + " Sal " + thisScreening.getTheaterNumber();
             
-            Text seatText = new Text("Reserverede sæder: " + thisScreening.getAmountReserved() + "/" + thisScreening.getAmountSeats());
+            String seatText = "Reserverede sæder: " + thisScreening.getAmountReserved() + "/" + thisScreening.getAmountSeats();
+            
+            String timeText = "Spilletid: " + thisScreening.getMovieLength() + "\n" + "Filmen starter: " + thisScreening.getTime();
+                    
+            thisButton.setText(movieText + "\n \n" + seatText + "\n \n" + timeText);
+            thisButton.setOnAction(evt -> 
+                calendarButtonClicked(thisScreening.getScreeningID()));
+            
+            calendarInfoBox.getChildren().add(thisButton);
+            currentButtons.add(thisButton);
         }
+    }
+    
+    private void calendarButtonClicked(int screeningID){
+        selectedScreeningID = screeningID;
+    }
+    
+    public int getSelectedScreening(){
+        return selectedScreeningID;
     }
 }

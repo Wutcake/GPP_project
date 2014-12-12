@@ -77,13 +77,6 @@
                            </children>
                         </GridPane>
                      </left>
-                     <right>
-                        <ScrollPane fx:id="calendarInfobox" prefHeight="504.0" prefWidth="324.0" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
-                           <content>
-                              <VBox prefHeight="200.0" prefWidth="100.0" />
-                           </content>
-                        </ScrollPane>
-                     </right>
                      <top>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="December 2014" BorderPane.alignment="CENTER">
                            <font>
@@ -91,6 +84,18 @@
                            </font>
                         </Text>
                      </top>
+                     <right>
+                        <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
+                           <children>
+                              <ScrollPane prefHeight="504.0" prefWidth="324.0" vbarPolicy="ALWAYS">
+                                 <content>
+                                    <VBox fx:id="calendarInfoBox" />
+                                 </content>
+                              </ScrollPane>
+                              <Button fx:id="goToTheaterButton" alignment="CENTER" mnemonicParsing="false" onAction="#goToTheater" prefWidth="324.0" text="Lav Reservationer" />
+                           </children>
+                        </VBox>
+                     </right>
                   </BorderPane>
                </content>
             </Tab>

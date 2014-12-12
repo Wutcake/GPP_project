@@ -65,6 +65,10 @@ public class Screening
         return time.getTime();
     }
     
+    public String getMovieLength(){
+        return movie.getLength();
+    }
+    
     public int getAmountSeats(){
         return amountSeats;
     }
