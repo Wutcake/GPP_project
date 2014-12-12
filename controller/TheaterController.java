@@ -110,8 +110,6 @@ public class TheaterController {
     
     public void setTheater(int screeningID, Screening screening, ArrayList<ArrayList<Seat>> ALLSeatsTheaterRowCol, int reservationID) throws Exception{
         // Load reservation
-        this.reservationID = reservationID;
-        toBeSelected = ALLReservations.get(reservationID).getSeats();
         setTheater(screeningID, screening, ALLSeatsTheaterRowCol);
     }
 
@@ -150,12 +148,6 @@ public class TheaterController {
             imgv.setImage(img2);
             theaterGrid.add(imgv, col, row);
         }
-
-       /* if(toBeSelected.contains(seat)) {
-            unreserveSeat(this.reservationID, ALLReservations.get(this.reservationID).getCustomerID(), seat);
-            seatSelected(imgv, seat);
-            toBeSelected.remove(seat);
-        }*/
     }
     
     @FXML
@@ -261,31 +253,14 @@ public class TheaterController {
     
     private void createCustomer(int customerID, String name, int phoneNumber) throws Exception{
         String update = "INSERT INTO Customers (CustomerID, Name, PhoneNumber) VALUES ('" + customerID + "', '" +  name + "', '" + phoneNumber + "')";
-        Customer currentCustomer = new Customer(name, phoneNumber, customerID);
-        
-        ALLCustomers.add(currentCustomer);
-
         SQLStatement.executeUpdate(update);
     }
     
     private void reserveNewSeat(int reservationID, int customerID, Seat seat) throws Exception{
         String update = "INSERT INTO Reservations (ReservationID, ScreeningID, CustomerID, SeatID) VALUES ('" + reservationID + "', '" + screeningID + "', '" + customerID + "', '" + seat.getID() + "')";
-        ALLReservations.get(reservationID).reserveNewSeat(seat);
-        
         SQLStatement.executeUpdate(update);
         
         update = "INSERT INTO ReservedSeats(SeatID, ScreeningID, CustomerID) VALUES ('" + seat.getID() + "', '" + screeningID + "', '" + customerID + "')";
         SQLStatement.executeUpdate(update);
-    
-    }
-
-    private void unreserveSeat(int reservationID, int customerID, Seat seat) throws Exception{
-        String update = "UPDATE Reservations SET ReservationID = '0' WHERE ReservationID = '" + reservationID + "'";
-        //ALLReservations.get(reservationID).nullifyReservationID();
-
-        //SQLStatement.executeUpdate(update);
-
-        update = "UPDATE ReservedSeats SET SeatID = '0' WHERE ScreeningID = '" + screeningID + "' AND CustomerID = '" + customerID + "'";
-        //SQLStatement.executeUpdate(update);
     }
 }

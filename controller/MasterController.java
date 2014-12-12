@@ -128,6 +128,8 @@ public class MasterController {
     @FXML
     private void reserveButton() throws Exception{
         theaterController.reserveButton();
+        reservationListInitialization();
+        customerListInitialization();
     }
     
     @FXML
@@ -198,10 +200,10 @@ public class MasterController {
             statement = connection.createStatement();
 
             // Håndtering af individuelle tables
-            customerListInitialization(statement);
-            movieListInitialization(statement);
-            screeningListInitialization(statement);
-            seatListInitialization(statement);
+            customerListInitialization();
+            movieListInitialization();
+            screeningListInitialization();
+            seatListInitialization();
             reservationListInitialization();
             //seatReservationListInitialization(statement);
 
@@ -210,7 +212,7 @@ public class MasterController {
         }
     }
 
-    private void customerListInitialization(Statement statement) throws Exception{
+    private void customerListInitialization() throws Exception{
         String query = "SELECT * FROM Customers";
 
         ResultSet rs = statement.executeQuery(query);
@@ -227,7 +229,7 @@ public class MasterController {
         rs.close();
     }
 
-    private void movieListInitialization(Statement statement) throws Exception{
+    private void movieListInitialization() throws Exception{
         String query = "SELECT * FROM Movies";
 
         ResultSet rs = statement.executeQuery(query);
@@ -244,7 +246,7 @@ public class MasterController {
         rs.close();
     }
 
-    private void screeningListInitialization(Statement statement) throws Exception{
+    private void screeningListInitialization() throws Exception{
         String query = "SELECT * FROM Screenings";
 
         ResultSet rs = statement.executeQuery(query);
@@ -265,7 +267,7 @@ public class MasterController {
         rs.close();
     }
 
-    private void seatListInitialization(Statement statement) throws Exception{
+    private void seatListInitialization() throws Exception{
         String query = "SELECT * FROM Seats";
 
         ResultSet rs = statement.executeQuery(query);
