@@ -71,7 +71,7 @@ public class MasterController {
     
     // Calendar Controller
     @FXML
-    private GridPane calenderGrid;
+    private GridPane calendarGrid;
     
     @FXML
     private ScrollPane calenderInfoBox;
@@ -150,7 +150,9 @@ public class MasterController {
         
         theaterController.setTheater(1, ALLScreenings.get(1), ALLSeatsTheaterRowCol.get(1));
         
-        calenderController.FXMLLoader(calenderGrid);
+        calenderController.FXMLLoader(calendarGrid);
+        
+        calenderController.initialiseGrid();
     }
     
     public void print() {

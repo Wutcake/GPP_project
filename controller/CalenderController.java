@@ -45,15 +45,10 @@ public class CalenderController {
     }
     
     public void FXMLLoader(GridPane calenderGrid){
-        this.testLabel = testLabel;
-        
-        testText = new Text("Day 1");
-        
-        testLabel.setLabelFor(testText);
-        System.out.println(getText(testLabel));
+        this.calenderGrid = calenderGrid;
     }
     
-    private void initialiseGrid(){
+    public void initialiseGrid(){
         Integer dayCounter = 24, dayLimit = 30;
         
         for(int weekDay = 0; weekDay < 7; weekDay++){
