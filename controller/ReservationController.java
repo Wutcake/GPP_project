@@ -134,6 +134,7 @@ public class ReservationController{
         }
         makeButtons();
     }
+    
     public void deleteReservation()throws Exception{
         //String update = "DELETE FROM Reservations WHERE ReservationID = "+clickedReservation.getReservationID();
         //statement.executeUpdate(update);

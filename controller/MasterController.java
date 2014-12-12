@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -71,6 +72,9 @@ public class MasterController {
     // Calendar Controller
     @FXML
     private GridPane calenderGrid;
+    
+    @FXML
+    private ScrollPane calenderInfoBox;
     
     CalenderController calenderController;
     

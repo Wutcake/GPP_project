@@ -12,6 +12,7 @@ import GPP_project.model.Seat;
 
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Scanner;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
@@ -61,10 +62,19 @@ public class CalenderController {
                     Label label = new Label(dayCounter.toString());
                     Text text = new Text(dayCounter.toString());
                     label.setLabelFor(text);
-                    label.setOnMouseClicked(evt -> );
+                    label.setOnMouseClicked(evt -> dayClicked(getText(label)));
+                    
+                    calenderGrid.add(label, week, weekDay);
+                }else{
+                    dayLimit++;
+                    dayCounter = 1;
+                    Label label = new Label(dayCounter.toString());
+                    Text text = new Text(dayCounter.toString());
+                    label.setLabelFor(text);
+                    label.setOnMouseClicked(evt -> dayClicked(getText(label)));
+                    
+                    calenderGrid.add(label, week, weekDay);
                 }
-                
-                calenderGrid.add();
                 
                 dayCounter++;
             }
@@ -78,6 +88,18 @@ public class CalenderController {
             return tempText.getText();
         }
         return null;
+    }
+    
+    private void dayClicked(String day){
+        Scanner scanner;
+        
+        String toParse = day;
+        scanner = new Scanner(toParse);
+        if(scanner.hasNext()){
+            Integer dayInt = scanner.nextInt();
+            
+            
+        }
     }
     
 }
