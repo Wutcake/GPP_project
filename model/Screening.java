@@ -69,11 +69,11 @@ public class Screening
         return movie.getLength();
     }
     
-    public int getAmountSeats(){
+    public Integer getAmountSeats(){
         return amountSeats;
     }
     
-    public int getAmountReserved(){
+    public Integer getAmountReserved(){
         return amountSeatsReserved;
     }
     

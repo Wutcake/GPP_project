@@ -33,6 +33,9 @@ public class MasterController {
     private Text totalSeatsText;
     
     @FXML
+    private Text amountSelectedSeatsText;
+    
+    @FXML
     private TextField nameInput;
      
     @FXML
@@ -159,16 +162,22 @@ public class MasterController {
         int screeningID = calendarController.getSelectedScreening();
         int theaterID = ALLScreenings.get(screeningID).getTheaterNumber();
         
-        theaterController.setTheater(screeningID, ALLScreenings.get(screeningID), ALLSeatsTheaterRowCol.get(theaterID));
+        theaterController.setTheater(screeningID, ALLScreenings.get(screeningID),
+                ALLSeatsTheaterRowCol.get(theaterID));
     }
     
     public void test() throws Exception{
         
-        theaterController.FXMLLoader(theaterGrid, movieField, infoField, availableSeatsText, totalSeatsText, nameInput, phoneNumberInput);
+        theaterController.FXMLLoader(theaterGrid, movieField, infoField,
+                availableSeatsText, totalSeatsText,amountSelectedSeatsText,
+                nameInput, phoneNumberInput);
         
-        reservationController.FXMLLoader(buttonPane, searchBar, searchButton, deleteButton, nameField, titleField, theaterField, seatField, phoneField);
+        reservationController.FXMLLoader(buttonPane, searchBar, searchButton,
+                deleteButton, nameField, titleField, theaterField,
+                seatField, phoneField);
         
-        theaterController.setTheater(1, ALLScreenings.get(1), ALLSeatsTheaterRowCol.get(1));
+        theaterController.setTheater(1, ALLScreenings.get(1),
+                ALLSeatsTheaterRowCol.get(1));
         
         calendarController.FXMLLoader(calendarGrid, calendarInfoBox);
         

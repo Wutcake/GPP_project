@@ -113,13 +113,12 @@
                                              <center>
                                                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0" spacing="8.0" BorderPane.alignment="CENTER">
                                                    <children>
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pladser:" />
-                                                      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="150.0" spacing="8.0">
+                                                      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="6.0">
                                                          <children>
-                                                            <RadioButton mnemonicParsing="false" prefHeight="17.0" prefWidth="125.0" text="Sammenhængende" />
-                                                            <ChoiceBox prefWidth="75.0" />
+                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Antal pladser valgt:" />
+                                                            <Text fx:id="amountSelectedSeatsText" strokeType="OUTSIDE" strokeWidth="0.0" />
                                                          </children>
-                                                      </VBox>
+                                                      </HBox>
                                                    </children>
                                                 </HBox>
                                              </center>

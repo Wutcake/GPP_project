@@ -35,6 +35,7 @@ public class TheaterController {
     private Text infoField;
     private Text availableSeatsText;
     private Text totalSeatsText;
+    private Text amountSelectedSeatsText;
     private TextField nameInput;
     private TextField phoneNumberInput;
     
@@ -74,12 +75,16 @@ public class TheaterController {
     }
     
     public void FXMLLoader(GridPane theaterGrid, Text movieField, Text infoField, 
-            Text availableSeatsText, Text totalSeatsText, TextField nameInput, TextField phoneNumberInput){
+            Text availableSeatsText, Text totalSeatsText, Text amountSelectedSeatsText,
+            TextField nameInput, TextField phoneNumberInput){
         this.theaterGrid = theaterGrid;
         this.movieField = movieField;
         this.infoField = infoField;
         this.availableSeatsText = availableSeatsText;
         this.totalSeatsText = totalSeatsText;
+        this.amountSelectedSeatsText = amountSelectedSeatsText;
+        this.amountSelectedSeatsText.setText("0");
+        
         this.nameInput = nameInput;
         this.phoneNumberInput = phoneNumberInput;
     }
@@ -121,8 +126,8 @@ public class TheaterController {
         + "Sal " + screening.getTheaterNumber() + "\n"
         + screening.getTime());
         
-        availableSeatsText.setText(seatCounter.toString());
-        totalSeatsText.setText(seatCounter.toString());
+        availableSeatsText.setText(screeningTheater.getAmountReserved().toString());
+        totalSeatsText.setText(screeningTheater.getAmountSeats().toString());
     }
     
     private void initializeGrid(Seat seat, int col, int row) throws Exception {
@@ -215,6 +220,8 @@ public class TheaterController {
             System.out.println("added: " + toBeReserved.get(amountSelected));
             amountSelected++;
         }
+        amountSelectedSeatsText.setText(amountSelected.toString());
+        
         // Test code
         System.out.println("A seat was selected!");
     }
