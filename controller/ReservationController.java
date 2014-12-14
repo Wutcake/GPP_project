@@ -174,4 +174,12 @@ public class ReservationController{
     public Reservation getClickedReservation(){
         return clickedReservation;
     }
+    public void Update() {
+        reservations.clear();
+        for(Reservation res: ALLReservations){
+            reservations.add(res);
+        }
+        makeButtons();
+        
+    } 
 }
