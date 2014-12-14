@@ -89,6 +89,10 @@ public class TheaterController {
         this.phoneNumberInput = phoneNumberInput;
     }
     
+    public void update() throws Exception{
+        setTheater(screeningID, screeningTheater, ALLSeatsRowCol);
+    }
+    
     public void setTheater(int screeningID, Screening screening, ArrayList<ArrayList<Seat>> ALLSeatsTheaterRowCol) throws Exception{
         theaterGrid.getChildren().clear();
         
@@ -125,6 +129,8 @@ public class TheaterController {
 
         setTheater(screeningID, screening, ALLSeatsTheaterRowCol);
     }
+    
+    
 
     private void setTextFields(Screening screening){
         movieField.setText(screening.getMovieTitle());

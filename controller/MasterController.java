@@ -159,6 +159,7 @@ public class MasterController {
         reservationController.deleteReservation();
         reservationListInitialization();
         reservationController.update();
+        theaterController.update();
     }
 
     @FXML
@@ -259,6 +260,8 @@ public class MasterController {
     }
 
     private void customerListInitialization() throws Exception{
+        ALLCustomers.clear();
+        
         String query = "SELECT * FROM Customers";
 
         ResultSet rs = statement.executeQuery(query);
