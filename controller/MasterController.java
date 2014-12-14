@@ -141,6 +141,7 @@ public class MasterController {
         theaterController.reserveButton();
         reservationListInitialization();
         customerListInitialization();
+        reservationController.update();
     }
     
     @FXML

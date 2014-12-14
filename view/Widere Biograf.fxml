@@ -245,7 +245,7 @@
                                     <Button fx:id="searchButton" layoutX="460.0" layoutY="14.0" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="40.0" />
                                     <Button fx:id="deleteButton" layoutX="568.0" layoutY="134.0" mnemonicParsing="false" onAction="#deleteReservation" text="Slet Reservation" />
                                     <Text fx:id="phoneField" layoutX="14.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tlf." />
-                                    <Button fx:id="theaterChangeButton" layoutX="574.0" layoutY="174.0" mnemonicParsing="false" onAction="#showInTheaterView" text="Se Forestilling" />
+                                    <Button fx:id="theaterChangeButton" layoutX="547.0" layoutY="174.0" mnemonicParsing="false" onAction="#showInTheaterView" text="Rediger Reservation" />
                                  </children>
                               </AnchorPane>
                            </items>

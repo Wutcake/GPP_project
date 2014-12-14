@@ -143,6 +143,7 @@ public class TheaterController {
         IntegerProperty reservationID = reservationIDsRowCol.get(row).get(col);
 
         if (seat.getSeatNumber() > 0) {
+            
             if (reservationID.get() == 0) {
                 // lambda expression
                 imgv.setOnMouseClicked(evt ->
@@ -154,6 +155,10 @@ public class TheaterController {
                 imgv.setImage(img4);
                 theaterGrid.add(imgv, col, row);
             }
+            if (toBeSelected.contains(seat)){
+                seatSelected(imgv, seat);
+                toBeSelected.remove(seat);
+            }
             reservationID.addListener(new ChangeListener() {
                 @Override
                 public void changed(ObservableValue o, Object oldVal, Object newVal) {
@@ -161,11 +166,7 @@ public class TheaterController {
                 }
             });
 
-        } else if (toBeSelected.contains(seat)){
-            seatSelected(imgv, seat);
-            theaterGrid.add(imgv, col, row);
-            toBeSelected.remove(seat);
-        } else {
+        }  else {
             imgv.setImage(img2);
             theaterGrid.add(imgv, col, row);
         }
