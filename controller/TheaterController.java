@@ -46,7 +46,7 @@ public class TheaterController {
     
     private Screening screeningTheater;
     private ArrayList<Seat> toBeReserved;
-    private ArrayList<Seat> toBeSelected;
+    private ArrayList<Seat> toBeSelected = new ArrayList<Seat>();
     private ArrayList<Customer> ALLCustomers;
     private ArrayList<Reservation> ALLReservations;
     private ArrayList<ArrayList<Seat>> ALLSeatsRowCol;
