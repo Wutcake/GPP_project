@@ -57,7 +57,6 @@ public class ReservationController{
         for(Reservation res: ALLReservations){
             reservations.add(res);
         }
-        
     } 
     
     public void FXMLLoader(VBox buttonPane, TextField searchBar, Button searchButton, Button deleteButton, 

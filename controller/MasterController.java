@@ -156,13 +156,25 @@ public class MasterController {
     @FXML
     private void deleteReservation() throws Exception{
         reservationController.deleteReservation();
-        reservationListInitialization();        
+        reservationListInitialization();
+        reservationController.update();
     }
 
     @FXML
     private void showInTheaterView() throws Exception{
-        //reservationController.deleteReservation();
+        Reservation res = reservationController.getClickedReservation();
 
+        int customerID = res.getCustomerID();
+        int screeningID = res.getScreeningID();
+        int theaterID = res.getScreening().getTheaterNumber();
+        ArrayList<Seat> seatsReserved = res.getSeats();
+
+        reservationController.deleteReservation();
+        reservationListInitialization();
+
+        theaterController.setTheater(screeningID, ALLScreenings.get(screeningID), ALLSeatsTheaterRowCol.get(theaterID), customerID, seatsReserved);
+
+        tabPane.getSelectionModel().clearAndSelect(1);
     }
     
     @FXML
@@ -323,6 +335,7 @@ public class MasterController {
     }
 
     private void screeningListInitialization() throws Exception{
+        ALLReservations.clear();
         String query = "SELECT * FROM Screenings";
 
         ResultSet rs = statement.executeQuery(query);

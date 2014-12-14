@@ -115,8 +115,14 @@ public class TheaterController {
         setTextFields(screeningTheater);
     }
     
-    public void setTheater(int screeningID, Screening screening, ArrayList<ArrayList<Seat>> ALLSeatsTheaterRowCol, int reservationID) throws Exception{
-        // Load reservation
+    public void setTheater(int screeningID, Screening screening, ArrayList<ArrayList<Seat>> ALLSeatsTheaterRowCol, int customerID, ArrayList<Seat> seatsReserved) throws Exception{
+        nameInput.setText(ALLCustomers.get(customerID).getName());
+
+        String phoneNum = "" + ALLCustomers.get(customerID).getPhoneNumber();
+        phoneNumberInput.setText(phoneNum);
+
+        toBeSelected = seatsReserved;
+
         setTheater(screeningID, screening, ALLSeatsTheaterRowCol);
     }
 
@@ -135,24 +141,30 @@ public class TheaterController {
     private void initializeGrid(Seat seat, int col, int row) throws Exception {
         ImageView imgv = new ImageView();
         IntegerProperty reservationID = reservationIDsRowCol.get(row).get(col);
-        
-        if(seat.getSeatNumber() > 0){
-            if(reservationID.get() == 0){
+
+        if (seat.getSeatNumber() > 0) {
+            if (reservationID.get() == 0) {
                 // lambda expression
-                imgv.setOnMouseClicked(evt -> 
-                    seatSelected(imgv, seat)
+                imgv.setOnMouseClicked(evt ->
+                                seatSelected(imgv, seat)
                 );
                 imgv.setImage(img1);
-                theaterGrid.add(imgv , col, row);
-            }else{
+                theaterGrid.add(imgv, col, row);
+            } else {
                 imgv.setImage(img4);
                 theaterGrid.add(imgv, col, row);
             }
-            reservationID.addListener(new ChangeListener(){
-                @Override public void changed(ObservableValue o, Object oldVal, Object newVal){
-                    seatReserved(imgv);}
+            reservationID.addListener(new ChangeListener() {
+                @Override
+                public void changed(ObservableValue o, Object oldVal, Object newVal) {
+                    seatReserved(imgv);
+                }
             });
-            
+
+        } else if (toBeSelected.contains(seat)){
+            seatSelected(imgv, seat);
+            theaterGrid.add(imgv, col, row);
+            toBeSelected.remove(seat);
         } else {
             imgv.setImage(img2);
             theaterGrid.add(imgv, col, row);
