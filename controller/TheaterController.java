@@ -278,5 +278,8 @@ public class TheaterController {
         
         update = "INSERT INTO ReservedSeats(SeatID, ScreeningID, CustomerID) VALUES ('" + seat.getID() + "', '" + screeningID + "', '" + customerID + "')";
         SQLStatement.executeUpdate(update);
+
+        update = "UPDATE Screenings SET SeatsReserved = SeatsReserved + 1 WHERE ScreeningID = '" + screeningID + "'";
+        SQLStatement.executeUpdate(update);
     }
 }

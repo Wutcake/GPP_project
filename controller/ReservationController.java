@@ -157,7 +157,18 @@ public class ReservationController{
 
             update = "DELETE FROM ReservedSeats WHERE SeatID = '"+ seatID + "' AND CustomerID = '" + customerID + "' AND ScreeningID = '" + screeningID + "'";
             statement.executeUpdate(update);
+
+            update = "UPDATE Screenings SET SeatsReserved = SeatsReserved - 1 WHERE ScreeningID = '" + screeningID + "'";
+            statement.executeUpdate(update);
         }
+
+        // 'Klikker' på John Doe
+        clickedReservation = ALLReservations.get(0);
+        nameField.setText(clickedReservation.getName());
+        phoneField.setText("Tlf.: "+clickedReservation.getPhoneNumber());
+        titleField.setText(clickedReservation.getScreening().getMovieTitle());
+        theaterField.setText("Theater: "+clickedReservation.getScreening().getTheaterNumber());
+        seatField.setText(clickedReservation.printSeats());
     }
 
     public Reservation getClickedReservation(){

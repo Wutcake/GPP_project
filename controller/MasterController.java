@@ -112,7 +112,9 @@ public class MasterController {
 
     private Connection connection = null;
     private Statement statement = null;
-    
+
+    private ArrayList<Integer> seatsInTheater = new ArrayList<Integer>();
+
     public MasterController() throws Exception
     {
         
@@ -287,6 +289,8 @@ public class MasterController {
         ALLSeatsTheaterRowCol.get(0).add(new ArrayList<Seat>());
         ALLSeatsTheaterRowCol.get(0).get(0).add(ALLSeats.get(0));
 
+        seatsInTheater.add(0);
+
         int totalTheaters = 0;
         int totalRows = 0;
         while(rs.next()){
@@ -301,6 +305,7 @@ public class MasterController {
             if(theater > totalTheaters){
                 ALLSeatsTheaterRowCol.add(new ArrayList<ArrayList<Seat>>());
                 ALLSeatsTheaterRowCol.get(theater).add(new ArrayList<Seat>());
+                seatsInTheater.add(0);
                 totalTheaters = theater;
                 totalRows = 0;
             }
@@ -312,6 +317,7 @@ public class MasterController {
             }
 
             ALLSeatsTheaterRowCol.get(theater).get(row).add(ALLSeats.get(seatID));
+            seatsInTheater.set(theater, seatsInTheater.get(theater)+1);
         }
         rs.close();
     }
@@ -335,8 +341,9 @@ public class MasterController {
             String time = rs.getString("Time");
             int theaterID = rs.getInt("Theater");
             int amountSeatsReserved = rs.getInt("SeatsReserved");
+            int amountSeats = seatsInTheater.get(theaterID);
 
-            ALLScreenings.add(new Screening(ALLMovies.get(movieID), theaterID, time, newDate, ALLSeatsTheaterRowCol.get(theaterID).size(), screeningID));
+            ALLScreenings.add(new Screening(ALLMovies.get(movieID), theaterID, time, newDate, amountSeats, screeningID));
             ALLScreenings.get(screeningID).setAmountReserved(amountSeatsReserved);
 
             if(!newDate.equals(date)){
