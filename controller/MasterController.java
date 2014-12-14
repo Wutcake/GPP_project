@@ -10,12 +10,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class MasterController {
+    // MasterController
+    @FXML
+    private TabPane tabPane;
+
     // TheaterController
     @FXML
     private GridPane theaterGrid;
@@ -154,6 +159,7 @@ public class MasterController {
 
     @FXML
     private void showInTheaterView() throws Exception{
+        //reservationController.deleteReservation();
 
     }
     
@@ -164,6 +170,8 @@ public class MasterController {
         
         theaterController.setTheater(screeningID, ALLScreenings.get(screeningID),
                 ALLSeatsTheaterRowCol.get(theaterID));
+
+        tabPane.getSelectionModel().clearAndSelect(1);
     }
     
     public void test() throws Exception{
