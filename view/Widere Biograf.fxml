@@ -144,13 +144,6 @@
                                        </right>
                                     </BorderPane>
                                  </bottom>
-                                 <center>
-                                    <GridPane fx:id="theaterGrid" alignment="CENTER" hgap="6.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" vgap="6.0" BorderPane.alignment="CENTER">
-                                       <columnConstraints>
-                                          <ColumnConstraints />
-                                       </columnConstraints>
-                                    </GridPane>
-                                 </center>
                                  <top>
                                     <BorderPane prefHeight="65.0" prefWidth="1024.0" BorderPane.alignment="CENTER">
                                        <bottom>
@@ -210,6 +203,16 @@
                                        </right>
                                     </BorderPane>
                                  </top>
+                                 <center>
+                                    <GridPane fx:id="theaterGrid" alignment="CENTER" hgap="6.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" style="-fx-border-color: black;" vgap="6.0" BorderPane.alignment="CENTER">
+                                       <columnConstraints>
+                                          <ColumnConstraints />
+                                       </columnConstraints>
+                                       <opaqueInsets>
+                                          <Insets />
+                                       </opaqueInsets>
+                                    </GridPane>
+                                 </center>
                               </BorderPane>
                            </children>
                         </AnchorPane>

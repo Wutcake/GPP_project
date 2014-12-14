@@ -16,8 +16,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.sql.ResultSet;
@@ -87,6 +85,7 @@ public class TheaterController {
         
         this.nameInput = nameInput;
         this.phoneNumberInput = phoneNumberInput;
+        
     }
     
     public void update() throws Exception{
