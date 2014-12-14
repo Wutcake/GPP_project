@@ -40,7 +40,7 @@ public class TheaterController {
     private TextField phoneNumberInput;
     
     // Needs better method of counting available / total seats...
-    private Integer seatCounter = 0, amountSelected = 0;
+    private Integer seatCounter = 0, reservedSeatsCounter = 0, amountSelected = 0;
     private int screeningID;
     private int reservationID = 0;
     
@@ -96,7 +96,6 @@ public class TheaterController {
         this.ALLSeatsRowCol = ALLSeatsTheaterRowCol;
         screeningTheater = screening;
         
-        setTextFields(screeningTheater);
         
         reservationIDsRowCol.clear();
         reservationIDsRowCol.add(new ArrayList<IntegerProperty>());
@@ -107,12 +106,13 @@ public class TheaterController {
                 reservationIDsRowCol.get(row).add(new SimpleIntegerProperty(getReservationID(getSeat(row, col).getID())));
                 if(getSeat(row, col).getSeatNumber() > 0){
                     initializeGrid(getSeat(row, col), col, row);
-                    seatCounter++;
                 }else{
                     initializeGrid(getSeat(row, col), col, row);
                 }   
             }
         }
+        
+        setTextFields(screeningTheater);
     }
     
     public void setTheater(int screeningID, Screening screening, ArrayList<ArrayList<Seat>> ALLSeatsTheaterRowCol, int reservationID) throws Exception{
@@ -120,14 +120,16 @@ public class TheaterController {
         setTheater(screeningID, screening, ALLSeatsTheaterRowCol);
     }
 
-    public void setTextFields(Screening screening){
+    private void setTextFields(Screening screening){
         movieField.setText(screening.getMovieTitle());
         infoField.setText(screening.getDate() + "\n"
         + "Sal " + screening.getTheaterNumber() + "\n"
         + screening.getTime());
         
-        availableSeatsText.setText(screeningTheater.getAmountReserved().toString());
-        totalSeatsText.setText(screeningTheater.getAmountSeats().toString());
+        Integer availableSeats = seatCounter - reservedSeatsCounter;
+        
+        availableSeatsText.setText(availableSeats.toString());
+        totalSeatsText.setText(seatCounter.toString());
     }
     
     private void initializeGrid(Seat seat, int col, int row) throws Exception {
@@ -135,6 +137,7 @@ public class TheaterController {
         IntegerProperty reservationID = reservationIDsRowCol.get(row).get(col);
         
         if(seat.getSeatNumber() > 0){
+            seatCounter++;
             if(reservationID.get() == 0){
                 // lambda expression
                 imgv.setOnMouseClicked(evt -> 
@@ -145,6 +148,7 @@ public class TheaterController {
             }else{
                 imgv.setImage(img4);
                 theaterGrid.add(imgv, col, row);
+                reservedSeatsCounter++;
             }
             reservationID.addListener(new ChangeListener(){
                 @Override public void changed(ObservableValue o, Object oldVal, Object newVal){

@@ -335,12 +335,6 @@ public class MasterController {
                 ALLScreeningsDay.add(new ArrayList<Screening>());
                 dayCounter++;
             }
-            if(newDate.equals("23-12-14")){
-                for(int cnt = 0; cnt < 10; cnt++){
-                    ALLScreeningsDay.add(new ArrayList<Screening>());
-                    dayCounter++;
-                }
-            }
             ALLScreeningsDay.get(dayCounter).add(ALLScreenings.get(screeningID));
             date = newDate;
         }
