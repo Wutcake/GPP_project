@@ -126,10 +126,10 @@ public class TheaterController {
         + "Sal " + screening.getTheaterNumber() + "\n"
         + screening.getTime());
         
-        Integer availableSeats = seatCounter - reservedSeatsCounter;
+        Integer availableSeats = screeningTheater.getAmountSeats() - screeningTheater.getAmountReserved();
         
         availableSeatsText.setText(availableSeats.toString());
-        totalSeatsText.setText(seatCounter.toString());
+        totalSeatsText.setText(screeningTheater.getAmountSeats().toString());
     }
     
     private void initializeGrid(Seat seat, int col, int row) throws Exception {
@@ -137,7 +137,6 @@ public class TheaterController {
         IntegerProperty reservationID = reservationIDsRowCol.get(row).get(col);
         
         if(seat.getSeatNumber() > 0){
-            seatCounter++;
             if(reservationID.get() == 0){
                 // lambda expression
                 imgv.setOnMouseClicked(evt -> 
@@ -148,7 +147,6 @@ public class TheaterController {
             }else{
                 imgv.setImage(img4);
                 theaterGrid.add(imgv, col, row);
-                reservedSeatsCounter++;
             }
             reservationID.addListener(new ChangeListener(){
                 @Override public void changed(ObservableValue o, Object oldVal, Object newVal){
