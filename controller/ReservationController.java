@@ -173,7 +173,7 @@ public class ReservationController{
     public Reservation getClickedReservation(){
         return clickedReservation;
     }
-    public void Update() {
+    public void update() {
         reservations.clear();
         for(Reservation res: ALLReservations){
             reservations.add(res);
