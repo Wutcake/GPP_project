@@ -141,33 +141,36 @@ public class ReservationController{
     
     public void deleteReservation()throws Exception{
         int reservationID = clickedReservation.getReservationID();
-        int customerID = clickedReservation.getCustomerID();
-        int screeningID = clickedReservation.getScreeningID();
-        ArrayList<Seat> reservedSeats = clickedReservation.getSeats();
+        
+        if(reservationID > 0){
+            int customerID = clickedReservation.getCustomerID();
+            int screeningID = clickedReservation.getScreeningID();
+            ArrayList<Seat> reservedSeats = clickedReservation.getSeats();
 
-        String update = "UPDATE Reservations SET ReservationID = ReservationID - 1 WHERE ReservationID > '" + reservationID + "'";
-        statement.executeUpdate(update);
-
-        update = "DELETE FROM Reservations WHERE ReservationID = '" + reservationID + "' AND CustomerID = '" + customerID + "' AND ScreeningID = '" + screeningID + "'";
-        statement.executeUpdate(update);
-
-        for(int i=0;i<reservedSeats.size();i++){
-            int seatID = reservedSeats.get(i).getID();
-
-            update = "DELETE FROM ReservedSeats WHERE SeatID = '"+ seatID + "' AND CustomerID = '" + customerID + "' AND ScreeningID = '" + screeningID + "'";
+            String update = "UPDATE Reservations SET ReservationID = ReservationID - 1 WHERE ReservationID > '" + reservationID + "'";
             statement.executeUpdate(update);
 
-            update = "UPDATE Screenings SET SeatsReserved = SeatsReserved - 1 WHERE ScreeningID = '" + screeningID + "'";
+            update = "DELETE FROM Reservations WHERE ReservationID = '" + reservationID + "' AND CustomerID = '" + customerID + "' AND ScreeningID = '" + screeningID + "'";
             statement.executeUpdate(update);
+
+            for(int i=0;i<reservedSeats.size();i++){
+                int seatID = reservedSeats.get(i).getID();
+
+                update = "DELETE FROM ReservedSeats WHERE SeatID = '"+ seatID + "' AND CustomerID = '" + customerID + "' AND ScreeningID = '" + screeningID + "'";
+                statement.executeUpdate(update);
+
+                update = "UPDATE Screenings SET SeatsReserved = SeatsReserved - 1 WHERE ScreeningID = '" + screeningID + "'";
+                statement.executeUpdate(update);
+            }
+
+            // 'Klikker' på John Doe
+            clickedReservation = ALLReservations.get(0);
+            nameField.setText(clickedReservation.getName());
+            phoneField.setText("Tlf.: "+clickedReservation.getPhoneNumber());
+            titleField.setText(clickedReservation.getScreening().getMovieTitle());
+            theaterField.setText("Theater: "+clickedReservation.getScreening().getTheaterNumber());
+            seatField.setText(clickedReservation.printSeats());
         }
-
-        // 'Klikker' på John Doe
-        clickedReservation = ALLReservations.get(0);
-        nameField.setText(clickedReservation.getName());
-        phoneField.setText("Tlf.: "+clickedReservation.getPhoneNumber());
-        titleField.setText(clickedReservation.getScreening().getMovieTitle());
-        theaterField.setText("Theater: "+clickedReservation.getScreening().getTheaterNumber());
-        seatField.setText(clickedReservation.printSeats());
     }
 
     public Reservation getClickedReservation(){

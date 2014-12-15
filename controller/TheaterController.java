@@ -53,13 +53,13 @@ public class TheaterController {
     private Statement SQLStatement;
 
     // Not reserved, selected or null.
-    Image img1 = new Image("GPP_project/resources/images/test.png", 32, 32, true, false);
+    Image availableSeatImg = new Image("GPP_project/resources/images/available.png", 32, 32, true, false);
     // Null
-    Image img2 = new Image("GPP_project/resources/images/test1.png", 32, 32, true, false);
+    Image transparentImg = new Image("GPP_project/resources/images/transparent.png", 32, 32, true, false);
     // Selected
-    Image img3 = new Image("GPP_project/resources/images/test2.png", 32, 32, true, false);
+    Image selectedSeatImg = new Image("GPP_project/resources/images/selected.png", 32, 32, true, false);
     // Reserved
-    Image img4 = new Image("GPP_project/resources/images/test3.png", 32, 32, true, false);
+    Image reservedSeatImg = new Image("GPP_project/resources/images/reserved.png", 32, 32, true, false);
 
     public TheaterController(Statement SQLStatement,  
             ArrayList<Seat> ALLSeats, ArrayList<Customer> ALLCustomers, ArrayList<Reservation> ALLReservations) throws Exception{
@@ -89,6 +89,10 @@ public class TheaterController {
     }
     
     public void update() throws Exception{
+        for(Seat seat: toBeReserved){
+            toBeSelected.add(seat);
+        }
+        
         setTheater(screeningID, screeningTheater, ALLSeatsRowCol);
     }
     
@@ -137,7 +141,7 @@ public class TheaterController {
         + "Sal " + screening.getTheaterNumber() + "\n"
         + screening.getTime());
         
-        Integer availableSeats = screeningTheater.getAmountSeats() - screeningTheater.getAmountReserved();
+        Integer availableSeats = screeningTheater.getAmountSeats() - screeningTheater.getAmountReserved() - toBeReserved.size();
         
         availableSeatsText.setText(availableSeats.toString());
         totalSeatsText.setText(screeningTheater.getAmountSeats().toString());
@@ -154,10 +158,10 @@ public class TheaterController {
                 imgv.setOnMouseClicked(evt ->
                                 seatSelected(imgv, seat)
                 );
-                imgv.setImage(img1);
+                imgv.setImage(availableSeatImg);
                 theaterGrid.add(imgv, col, row);
             } else {
-                imgv.setImage(img4);
+                imgv.setImage(reservedSeatImg);
                 theaterGrid.add(imgv, col, row);
             }
             if (toBeSelected.contains(seat)){
@@ -172,14 +176,13 @@ public class TheaterController {
             });
 
         }  else {
-            imgv.setImage(img2);
+            imgv.setImage(transparentImg);
             theaterGrid.add(imgv, col, row);
         }
     }
     
     @FXML
     public void reserveButton() throws Exception{
-        System.out.println("DU HAR TRYKKET RESERVÉR!");
         Scanner scanner;
         
         String name = nameInput.getCharacters().toString();
@@ -223,27 +226,23 @@ public class TheaterController {
     }
     
     private void seatReserved(ImageView imgv){
-        imgv.setImage(img4);
+        imgv.setImage(reservedSeatImg);
         imgv.setOnMouseClicked(null);
     }
   
     private void seatSelected(ImageView imgview, Seat seat){
         seat.select();
         if(!seat.isSelected()){
-            imgview.setImage(img1);
+            imgview.setImage(availableSeatImg);
             amountSelected--;
-            System.out.println("removed: " + toBeReserved.get(amountSelected));
             toBeReserved.remove(seat);
         }else{
-            imgview.setImage(img3);
+            imgview.setImage(selectedSeatImg);
             toBeReserved.add(seat);
-            System.out.println("added: " + toBeReserved.get(amountSelected));
             amountSelected++;
         }
         amountSelectedSeatsText.setText(amountSelected.toString());
-        
-        // Test code
-        System.out.println("A seat was selected!");
+        setTextFields(screeningTheater);
     }
     
     private Seat getSeat(int row, int col){

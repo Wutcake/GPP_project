@@ -31,7 +31,7 @@ public class Main extends Application {
             Parent view = loader.load();
             
             MasterController masterController = loader.getController();
-            masterController.test();
+            masterController.FXMLInitializer();
             
             stage.setTitle("Widere Biograf");
             stage.setScene(new Scene(view, 1024, 576));
@@ -44,37 +44,6 @@ public class Main extends Application {
         }
     }
     
-    
-    /*
-    Dated show methods.
-    
-    public void showReservations(Stage stage) throws IOException{
-        Pane root = new Pane();
-        Parent layout = FXMLLoader.load(getClass().getResource("Layout_Reservationview.fxml"));
-        
-        Scene scene = new Scene(root);
-        root.getChildren().add(layout);
-        
-        stage.setTitle("Widere Biograf");
-        stage.setScene(scene);
-        stage.show();
-        
-    }
-    public void showTodoView(Stage stage) {
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("view/Layout_theaterview.fxml"));
-            Parent todoView = loader.load();
-
-            
-            stage.setTitle("Widere Biograf");
-            stage.setScene(new Scene(todoView, 1024, 576));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace(); //Show a dialog or something... ?
-        }
-    }
-    */
     public static void main(String[] args) {
         launch(args);
     }

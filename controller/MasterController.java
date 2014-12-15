@@ -139,9 +139,12 @@ public class MasterController {
     @FXML
     private void reserveButton() throws Exception{
         theaterController.reserveButton();
-        reservationListInitialization();
         customerListInitialization();
+        screeningListInitialization();
+        reservationListInitialization();
         reservationController.update();
+        theaterController.update();
+        calendarController.update();
     }
     
     @FXML
@@ -150,16 +153,13 @@ public class MasterController {
     }
     
     @FXML
-    private void dateClicked(){
-        System.out.println("clicked");
-    }
-    
-    @FXML
     private void deleteReservation() throws Exception{
         reservationController.deleteReservation();
+        screeningListInitialization();
         reservationListInitialization();
         reservationController.update();
         theaterController.update();
+        calendarController.update();
     }
 
     @FXML
@@ -172,6 +172,7 @@ public class MasterController {
         ArrayList<Seat> seatsReserved = res.getSeats();
 
         reservationController.deleteReservation();
+        screeningListInitialization();
         reservationListInitialization();
 
         theaterController.setTheater(screeningID, ALLScreenings.get(screeningID), ALLSeatsTheaterRowCol.get(theaterID), customerID, seatsReserved);
@@ -190,7 +191,7 @@ public class MasterController {
         tabPane.getSelectionModel().clearAndSelect(1);
     }
     
-    public void test() throws Exception{
+    public void FXMLInitializer() throws Exception{
         
         theaterController.FXMLLoader(theaterGrid, movieField, infoField,
                 availableSeatsText, totalSeatsText,amountSelectedSeatsText,

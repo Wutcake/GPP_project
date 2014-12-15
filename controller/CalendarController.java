@@ -37,11 +37,9 @@ public class CalendarController {
     
     private ArrayList<Button> currentButtons = new ArrayList<>();
     
-    private Label testLabel;
-    private Text testText;
     private GridPane calendarGrid;
     private VBox calendarInfoBox;
-    private int selectedScreeningID = 0;
+    private int selectedScreeningID = 0, currentDay = 1;
     
     public CalendarController(Statement SQLStatement, ArrayList<Seat> ALLSeats,
             ArrayList<Customer> ALLCustomers, ArrayList<Reservation> ALLReservations,
@@ -62,6 +60,11 @@ public class CalendarController {
     public void initialiseGrid(){
         Integer dayCounter = 24, dayLimit = 30;
         boolean flag = true;
+        
+        // This long bit of code is only neccesary because we don't want to
+        // be able to click days where we don't have screenings. This bit could
+        // be significantly shorter and more understandable if the system
+        // was set-up to deal with a calendar year based.
         
         for(int week = 1; week < 7; week++){
             for(int weekDay = 0; weekDay < 7; weekDay++){
@@ -180,17 +183,17 @@ public class CalendarController {
         scanner = new Scanner(toParse);
         if(scanner.hasNext()){
             Integer dayInt = scanner.nextInt();
-            System.out.println(dayInt);
-            
+            currentDay = dayInt;
             getDayInfo(dayInt);
         }
     }
     
+    public void update(){
+        getDayInfo(currentDay);
+    }
+    
     private void getDayInfo(int day){
-        
-        for(Button btn: currentButtons){
-            calendarInfoBox.getChildren().remove(btn);
-        }
+        calendarInfoBox.getChildren().clear();
         currentButtons.clear();
         
         ArrayList<Screening> screeningsThisDay;
