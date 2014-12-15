@@ -87,7 +87,7 @@
                      <right>
                         <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
                            <children>
-                              <ScrollPane prefHeight="504.0" prefWidth="324.0" vbarPolicy="ALWAYS">
+                              <ScrollPane fitToWidth="true" prefHeight="504.0" prefWidth="324.0" vbarPolicy="ALWAYS">
                                  <content>
                                     <VBox fx:id="calendarInfoBox" />
                                  </content>
@@ -227,13 +227,9 @@
                            <items>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                                  <children>
-                                    <ScrollPane prefHeight="545.0" prefWidth="333.0">
+                                    <ScrollPane fitToWidth="true" prefHeight="545.0" prefWidth="333.0" vbarPolicy="ALWAYS">
                                        <content>
-                                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="543.0" prefWidth="331.0">
-                                             <children>
-                                                <VBox fx:id="buttonPane" prefHeight="545.0" prefWidth="332.0" />
-                                             </children>
-                                          </AnchorPane>
+                                          <VBox fx:id="buttonPane" />
                                        </content>
                                     </ScrollPane>
                                  </children>

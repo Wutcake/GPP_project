@@ -340,7 +340,8 @@ public class MasterController {
     }
 
     private void screeningListInitialization() throws Exception{
-        ALLReservations.clear();
+        ALLScreenings.clear();
+        ALLScreeningsDay.clear();
         String query = "SELECT * FROM Screenings";
 
         ResultSet rs = statement.executeQuery(query);
@@ -376,7 +377,7 @@ public class MasterController {
 
     private void reservationListInitialization() throws Exception{
         ALLReservations.clear();
-        String query = "SELECT * FROM Reservations";
+        String query = "SELECT * FROM Reservations ORDER BY ReservationID";
 
         ResultSet rs = statement.executeQuery(query);
 
